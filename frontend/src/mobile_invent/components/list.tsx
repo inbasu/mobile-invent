@@ -1,6 +1,8 @@
 import Grid from '@mui/material/Grid2';
 import { Item, Values } from '../datatypes';
 import { border } from "../page";
+import { useContext } from 'react';
+import { ActionContext, ItemContext, ResultContext } from '../context';
 
 
 const getValue = (item: Item, attrs: Array<Values>) => {
@@ -8,7 +10,7 @@ const getValue = (item: Item, attrs: Array<Values>) => {
 }
 
 
-const itemTable = (item: Item, setItem: Function) => {
+const itemTable = (item: Item, setItem: Function, selected: Item | null, action: string) => {
         const fields: Array<string> = [
                 "INV No", "Serial No", "User",
                 "Инв No и модель", "For user"
@@ -16,9 +18,12 @@ const itemTable = (item: Item, setItem: Function) => {
         return (
                 <Grid container size={12} pl={1}
                         onClick={() => { setItem(item) }}
-                        sx={{ borderBottom: border, '&:hover': { background: '#7CB9FF' } }
+                        sx={{ borderBottom: border, '&:hover': { background: '#7CB9FF' }, background: item === selected ? '#CCCCCC' : '' }
                         }>
-                        <Grid size={12} ><b>{item.label}</b></Grid>
+                        {action == 'takeback' ?
+                                <Grid size={12} ><b>{item.label}</b></Grid> :
+                                <Grid size={12} ><b>{item.label}</b></Grid>
+                        }
                         {
                                 getValue(item, fields).map(field => {
                                         return (
@@ -33,10 +38,14 @@ const itemTable = (item: Item, setItem: Function) => {
 };
 
 
-export default function ItemList({ items, setParentItem }: { items: Array<Item>, setParentItem: Function }) {
+export default function ItemList() {
+        const [item, setItem] = useContext(ItemContext);
+        const [results, setResults] = useContext(ResultContext);
+        const [action, setAction] = useContext(ActionContext);
+
         return (
-                <Grid container sx={{ height: "100%" }}>
-                        {items.map((item) => itemTable(item, setParentItem))}
+                <Grid container sx={{ maxHeight: "100%" }}>
+                        {results.map((i) => itemTable(i, setItem, item, action))}
                 </Grid>
         )
 }

@@ -1,5 +1,5 @@
 type Value = {
-  label: Array<string>;
+  label: string;
 };
 
 type Values = {
@@ -11,5 +11,6 @@ export type Item = {
   id: number;
   label: string;
   attrs: Array<Values>;
-  ereq?: Item;
+  joined: Array<Item>;
+  itreq?: Array<Item>;
 };

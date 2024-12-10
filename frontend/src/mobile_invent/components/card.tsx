@@ -1,21 +1,12 @@
 import Grid from "@mui/material/Grid2";
 import { Item, Values } from "../datatypes"
 import ButtonGroup from "./buttonsGrp";
+import { useContext } from "react";
+import { ItemContext } from "../context";
 
 
-const hardwareFields = (action: string) => {
-        switch (action) {
-                case "takeback":
-                        return ["INV No", "Serial No", "Model", "State", "Location", "User"];
-                case "giveaway":
-                        return [];
-                default:
-                        return [];
-
-        }
-}
-
-const ereqFields = ['Кто принял', 'Дата сдачи', "Кто выдал", , 'Дата выдачи', "Пользователь"]
+const hardwareFields = ["INV No", "Serial No", "Model", "State", "Location", "User"];
+const ereqFields = ['Кто принял', 'Дата сдачи', "Кто выдал", , 'Дата выдачи', "Пользователь"];
 
 
 
@@ -27,28 +18,27 @@ const AttrRow = ({ attr }: { attr: Values }) => {
                 </>)
 }
 
-export default function ItemCard({ item }: { item: Item }) {
-        const action: string = "takeback"
+export default function ItemCard() {
+        const [item, setItem] = useContext(ItemContext);
+
+
         return (
                 <Grid container p={2}>
                         <Grid size={12}><h3>{item.label}</h3></Grid>
                         <Grid container size={12} pb={3}>
                                 {item.attrs && item.attrs.map(attr => {
-                                        if (hardwareFields(action).includes(attr.name) && attr.values) {
+                                        if (hardwareFields.includes(attr.name) && attr.values) {
                                                 return (<AttrRow attr={attr} />)
                                         }
                                 })}
                         </Grid>
                         <Grid container size={12} pb={3}>
-                                {item.ereq && item.ereq?.attrs?.map(attr => {
+                                {item.joined && item.joined[0]?.attrs?.map(attr => {
                                         if (ereqFields.includes(attr.name)) {
                                                 return (<AttrRow attr={attr} />)
 
                                         }
                                 })}
-                        </Grid>
-                        <Grid size={12}>
-                                <ButtonGroup action={action} item={item} />
                         </Grid>
                 </Grid>)
 }
