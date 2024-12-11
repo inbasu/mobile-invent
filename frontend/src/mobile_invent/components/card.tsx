@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid2";
 import { Item, Values } from "../datatypes"
 import ButtonGroup from "./buttonsGrp";
 import { useContext } from "react";
-import { ItemContext } from "../context";
+import { ActionContext, ItemContext } from "../context";
 
 
 const hardwareFields = ["INV No", "Serial No", "Model", "State", "Location", "User"];
@@ -20,25 +20,29 @@ const AttrRow = ({ attr }: { attr: Values }) => {
 
 export default function ItemCard() {
         const [item, setItem] = useContext(ItemContext);
+        const [action, setAction] = useContext(ActionContext);
 
 
         return (
                 <Grid container p={2}>
-                        <Grid size={12}><h3>{item.label}</h3></Grid>
+                        <Grid size={12}><h3>{item?.label}</h3></Grid>
                         <Grid container size={12} pb={3}>
-                                {item.attrs && item.attrs.map(attr => {
+                                {item?.attrs && item.attrs.map(attr => {
                                         if (hardwareFields.includes(attr.name) && attr.values) {
                                                 return (<AttrRow attr={attr} />)
                                         }
                                 })}
                         </Grid>
                         <Grid container size={12} pb={3}>
-                                {item.joined && item.joined[0]?.attrs?.map(attr => {
+                                {item?.joined && item.joined[0]?.attrs?.map(attr => {
                                         if (ereqFields.includes(attr.name)) {
                                                 return (<AttrRow attr={attr} />)
 
                                         }
                                 })}
+                        </Grid>
+                        <Grid size={12}>
+                                {action && <ButtonGroup />}
                         </Grid>
                 </Grid>)
 }

@@ -1,37 +1,101 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
+import axios from "axios";
 
 import Button from '@mui/material/Button';
-import { Item } from "../datatypes";
+import { ActionContext, ItemContext } from "../context";
+import { styled } from "@mui/material/styles";
+import { Typography } from "@mui/material";
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import SendIcon from '@mui/icons-material/Send';
 
-const actionMap = new Map([['takeback', "Сдать"], ["giveaway", "Выдать"]])
 
-type props = {
-        action: string;
-        item: Item
-}
+const actionMap = new Map([['takeback', "Сдать"], ["giveaway", "Выдать"], ["send", "Переслать"]])
+const blankMaxSize = 1024;
+const blankFormats = [".pdf", ".jpg", ".jpeg", ".png"]
 
-export default function ButtonGroup({ action }: props) {
+const HiddenInput = styled('input')({
+        clip: 'rect(0 0 0 0)',
+        clipPath: 'insert(50%)',
+        height: 1,
+        overflow: 'hidden',
+        position: 'absolute',
+})
+
+
+
+
+
+export default function ButtonGroup() {
+        const [action, setAction] = useContext(ActionContext);
+        const [item, setItem] = useContext(ItemContext);
+
         const [actionText, setActionText] = useState<string | undefined>();
         const [blank, setBlank] = useState<File | null>(null);
+        const [validBlank, setValidBlank] = useState<boolean | null>(null)
 
-        const handleDownload = () => { };
 
-        const handleUpload = () => { };
+        const handleDownload = () => {
+                axios.post('http://127.0.0.1:8800/mobile/blank/', { action: action, item: item }, { responseType: "blob" })
+                        .then(response => {
+                                const type = response.headers["content-type"];
+                                const url = window.URL.createObjectURL(new Blob([response.data], { type: type }));
+                                const link = document.createElement("a");
+                                link.href = url;
+                                link.setAttribute("download", `${item?.label}.docx`);
+                                document.body.appendChild(link);
+                                link.click();
+                                link.parentNode?.removeChild(link);
+                        })
+        };
 
-        useEffect(() => {
-                setActionText(actionMap.get(action))
-        }, [])
+        const handleUpload = (file: File | null) => {
+                console.log(file.name)
+                if (file && blankMaxSize > (file?.size / 1024) && blankFormats.some(suff => file.name.endsWith(suff))) {
+                        setBlank(file);
+                        setValidBlank(true);
+                } else {
+                        setBlank(null);
+                        setValidBlank(false);
+                }
+        };
+
         return (
-                <Grid container>
-                        <Grid>
-                                <Button variant="text">Скачать бланк</Button></Grid>
-                        <Grid></Grid>
-                        <Grid>
-                                <Button variant="contained"
-                                        onClick={handleUpload}
-                                        disabled={true}
-                                >{actionText}</Button>
+                <Grid container spacing={1}>
+                        <Grid size={3}>
+                                <Button variant="text"
+                                        color={"secondary"}
+                                        onClick={handleDownload}
+                                >Скачать бланк
+                                        <FileDownloadIcon />
+                                </Button>
+                        </Grid>
+                        <Grid size={6}>
+                                <Button variant="outlined"
+                                        color={validBlank ? "success" : 'error'}
+                                        component="label"
+                                        fullWidth>
+                                        {blank ? blank.name : "Выберите файл"}
+                                        <HiddenInput type="file" onChange={(event) => handleUpload(event.target.files ? event.target.files[0] : null)} />
+                                </Button>
+                                {!validBlank && (
+                                        <Typography textAlign={"center"} color={"error"}>
+                                                Файл в формате <b>.pdf</b> и рамером менее 0.5мб
+                                        </Typography>
+                                )}
+                        </Grid>
+
+
+
+                        <Grid size={2.5}>
+                                {action &&
+                                        <Button variant="contained"
+                                                onClick={handleUpload}
+                                                disabled={true}
+                                        >{actionMap.get(action)}
+                                                <SendIcon />
+                                        </Button>
+                                }
                         </Grid>
                 </Grid>
         )
