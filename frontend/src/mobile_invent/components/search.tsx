@@ -9,7 +9,7 @@ const searchFilter = (
         fields: Array<string>,
         querry: string,
 ) => {
-        for (let attr of item.attrs) {
+        for (const attr of item.attrs) {
                 if (fields.includes(attr.name) && (attr.values[0].label.toLowerCase().includes(querry.toLowerCase()))) {
                         return true;
                 }
@@ -36,6 +36,7 @@ export default function SearchBar() {
                 } else {
                         setLabel('')
                 }
+
                 setItem(null);
 
         }, [action])

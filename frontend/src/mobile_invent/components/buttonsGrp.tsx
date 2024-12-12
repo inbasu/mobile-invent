@@ -50,7 +50,6 @@ export default function ButtonGroup() {
         };
 
         const handleUpload = (file: File | null) => {
-                console.log(file.name)
                 if (file && blankMaxSize > (file?.size / 1024) && blankFormats.some(suff => file.name.endsWith(suff))) {
                         setBlank(file);
                         setValidBlank(true);
@@ -59,6 +58,26 @@ export default function ButtonGroup() {
                         setValidBlank(false);
                 }
         };
+
+        const handleAction = () => {
+                if (!validBlank) {
+                        return
+                }
+                const formData = new FormData();
+                formData.append('action', action);
+                formData.append('item', JSON.stringify(item));
+                formData.append('blank', blank ? blank : '');
+                axios.post('', FormData)
+                        .then((response) => {
+                                if (response.data.error) {
+                                        console.log(123)
+                                } else {
+                                        console.log(321)
+                                }
+
+                        })
+        }
+
 
         return (
                 <Grid container spacing={1}>
@@ -90,7 +109,7 @@ export default function ButtonGroup() {
                         <Grid size={2.5}>
                                 {action &&
                                         <Button variant="contained"
-                                                onClick={handleUpload}
+                                                onClick={handleAction}
                                                 disabled={true}
                                         >{actionMap.get(action)}
                                                 <SendIcon />

@@ -40,7 +40,7 @@ export default function ActionSelect() {
         const [action, setAction] = useContext(ActionContext);
 
         useEffect(() => {
-                let result = search(data, action)
+                const result = search(data, action)
                 setItems(result);
                 setResults(result);
         }, [action])
@@ -54,6 +54,7 @@ export default function ActionSelect() {
                                 value={action}
                                 label="Выберите действие"
                                 onChange={(event) => setAction(event.target.value)}>
+                                <MenuItem value={""}>Всё</MenuItem>
                                 <MenuItem value={"giveaway"}>Выдать</MenuItem>
                                 <MenuItem value={'takeback'}>Сдать</MenuItem>
                                 <MenuItem value={'send'}>Переслать</MenuItem>

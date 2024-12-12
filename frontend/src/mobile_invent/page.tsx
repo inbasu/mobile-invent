@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import Grid from "@mui/material/Grid2";
 
 
@@ -20,6 +19,7 @@ export const border: string = 'solid #D3D3D3 1px';
 export default function Mobile() {
         const [searchHeight, setSearchHeight] = useState<string>("73px");
 
+
         const [action, setAction] = useState<string>('');
         const [data, setData] = useState<Array<Item>>([]);
         const [items, setItems] = useState<Array<Item>>([]);
@@ -37,7 +37,7 @@ export default function Mobile() {
 
 
         useEffect(() => {
-                axios.post("http://127.0.0.1:8800/mobile/example/",
+                axios.post(`http://127.0.0.1:8800/mobile/items/`,
                         { scheme: 10, iql: "Name LIKE !test" })
                         .then((response) => {
                                 setData(response.data);
