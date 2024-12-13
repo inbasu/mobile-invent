@@ -13,6 +13,11 @@ USER = {
         "store_role": ["1065"]
         }
 
+def get_reqs():
+    with open('./itreqs.json', 'r') as f:
+        data = json.load(f)
+    return data
+
 
 # Create your views here.
 class GetStoresListView(View):
@@ -34,7 +39,8 @@ class GetDeviceListView(View):
                                 'on':'Инв No и модель',
                                 })
             if insight_data.status_code == 200:
-                return JsonResponse(self.zip_it(insight_data.json(), []), safe=False)
+                jira = get_reqs()
+                return JsonResponse(self.zip_it(insight_data.json(), jira), safe=False)
         return JsonResponse([], safe=False)
 
     def zip_it(self, insight_data: list[dict], jira_data: list[dict]) -> list:
@@ -43,14 +49,17 @@ class GetDeviceListView(View):
             for idx, req in enumerate(jira_data):
                 item_no = self.get_item_number(req.get('fields', {}).get('customfield_13400', '')) # 13400 поле inv.
                 if item_no in numbers:
-                    item["itreq"] = {
+                    try:
+                        item["itreq"] = {
                             "Key": req.get('key',''),
-                            "For user": req.get('fields', {}).get('customfield_13004', ''),
-                            "Issue Location" : req.get('fields', {}).get('customfield_10702', ''),
+                            "For user": req.get('fields', {}).get('customfield_13004', {}).get("displayName", ''),
+                            "Issue Location" : req.get('fields', {}).get('customfield_10702', {})[0].get("value", ''),
                             "inv.": req.get('fields', {}).get('customfield_13400', ''),
                             }
-                    jira_data.pop(idx)
-                    break
+                        jira_data.pop(idx)
+                    finally:
+                        break
+
         
         return insight_data + [{
             "id": 0,

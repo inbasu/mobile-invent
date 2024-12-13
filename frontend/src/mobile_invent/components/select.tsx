@@ -22,7 +22,7 @@ const search = (items: Array<Item>, action: string) => {
 
                         })
                 case "giveaway":
-                        return items.filter((item => item.itreq?.length))
+                        return items.filter((item) => item.itreq)
                 case "send":
                         return items.filter((item) => {
                                 return item.attrs.filter((attr) => {
@@ -84,6 +84,7 @@ export default function ActionSelect() {
                                                 <MenuItem value={"1037"}>1037</MenuItem>
                                                 <MenuItem value={"1054"}>1054</MenuItem>
                                                 <MenuItem value={"1065"}>1065</MenuItem>
+                                                <MenuItem value={"1082"}>1082</MenuItem>
                                         </Select>
                                 </FormControl >
                         </Grid>

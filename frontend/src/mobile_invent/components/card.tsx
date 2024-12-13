@@ -7,8 +7,7 @@ import { Typography } from "@mui/material";
 
 
 const hardwareFields = ["INV No", "Serial No", "Model", "State", "Location", "User", "Store"];
-const ereqFields = ['Кто принял', 'Дата сдачи', "Кто выдал", 'Дата выдачи', "Пользователь"];
-
+const jiraFields = ['Key', 'Issue Location', 'For user']
 
 
 const AttrRow = ({ attr }: { attr: Values }) => {
@@ -17,6 +16,20 @@ const AttrRow = ({ attr }: { attr: Values }) => {
                         <Grid size={4}>{attr.name}:</Grid>
                         <Grid size={8}>{attr.values[0] ? attr.values[0].label : ''}</Grid>
                 </>)
+}
+
+
+const getFields = (action: string) => {
+        switch (action) {
+                case "takeback":
+                        return ["Кто выдал", 'Дата выдачи', "Пользователь"];
+                case "giveaway":
+                        return ['Кто принял', 'Дата сдачи'];
+                default:
+                        return ["Кто выдал", 'Дата выдачи', "Пользователь", 'Кто принял', 'Дата сдачи'];
+
+
+        }
 }
 
 export default function ItemCard() {
@@ -39,7 +52,7 @@ export default function ItemCard() {
                                 <Grid container size={12} pb={3}>
                                         <Grid size={12}><Typography variant='overline'>Карточка</Typography></Grid>
                                         {item?.joined && item.joined[0]?.attrs?.map(attr => {
-                                                if (ereqFields.includes(attr.name)) {
+                                                if (getFields(action).includes(attr.name)) {
                                                         return (<AttrRow attr={attr} />)
 
                                                 }
@@ -49,11 +62,12 @@ export default function ItemCard() {
                         {item?.itreq &&
                                 <Grid container size={12} pb={3}>
                                         <Grid size={12}><Typography variant='overline'>Заявка</Typography></Grid>
-                                        {item?.joined && item.joined[0]?.attrs?.map(attr => {
-                                                if (ereqFields.includes(attr.name)) {
-                                                        return (<AttrRow attr={attr} />)
-
-                                                }
+                                        {item?.itreq && jiraFields.map(attr => {
+                                                return (
+                                                        <>
+                                                                <Grid size={4}>{attr}</Grid>
+                                                                <Grid size={8}>{item.itreq[attr]}</Grid>
+                                                        </>)
                                         })}
                                 </Grid>
                         }
