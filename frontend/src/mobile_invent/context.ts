@@ -21,6 +21,10 @@ export const ActionContext = createContext<
   [string, Dispatch<SetStateAction<string>>]
 >(["", () => {}]);
 
+export const LoadingContext = createContext<
+  [boolean, Dispatch<SetStateAction<boolean>>]
+>([false, () => {}]);
+
 export const StoresContext = createContext<
   [Array<Item> | null, Dispatch<SetStateAction<Array<Item>>>]
 >([null, () => {}]);

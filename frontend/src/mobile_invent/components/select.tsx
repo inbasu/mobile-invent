@@ -3,7 +3,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useContext, useEffect, useState } from 'react';
-import { ActionContext, DataContext, ItemsContext, ItemContext, ResultContext } from '../context';
+import { ActionContext, DataContext, ItemsContext, ItemContext, LoadingContext, ResultContext } from '../context';
 import { Item } from '../datatypes';
 import Grid from '@mui/material/Grid2';
 import axios from "axios";
@@ -41,6 +41,7 @@ export default function ActionSelect() {
         const [action, setAction] = useContext(ActionContext);
         const [data, setData] = useContext(DataContext);
         const [item, setItem] = useContext(ItemContext);
+        const [loading, setLoading] = useContext(LoadingContext);
 
         const [store, setStore] = useState<string | undefined>();
 
@@ -56,13 +57,15 @@ export default function ActionSelect() {
                 setItems([]);
                 setResults([]);
                 setItem(null);
+                setLoading(true);
                 axios.post(`http://127.0.0.1:8800/mobile/items/`,
                         { 'store': store })
                         .then((response) => {
                                 setData(response.data);
                                 setItems(response.data);
                                 setResults(response.data);
-                        });
+                        }).finally(() => setLoading(false))
+                        ;
 
         }, [store])
 

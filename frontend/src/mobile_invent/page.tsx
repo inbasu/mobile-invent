@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 import ItemList from "./components/list/list";
 import ActionSelect from "./components/select";
@@ -9,7 +9,7 @@ import axios from "axios";
 import { Box } from "@mui/material";
 import SearchBar from "./components/search";
 import ItemCard from "./components/card";
-import { DataContext, ItemContext, ItemsContext, ResultContext, ActionContext, StoresContext } from "./context";
+import { DataContext, ItemContext, ItemsContext, ResultContext, ActionContext, StoresContext, LoadingContext } from "./context";
 
 const height: string = "86vh"
 const leftCol: number = 3.5;
@@ -19,6 +19,7 @@ export const border: string = 'solid #D3D3D3 1px';
 export default function Mobile() {
         const [searchHeight, setSearchHeight] = useState<string>("73px");
 
+        const [loading, setLoading] = useState<boolean>(true);
 
         const [action, setAction] = useState<string>('');
         const [data, setData] = useState<Array<Item>>([]);
@@ -37,7 +38,12 @@ export default function Mobile() {
         window.addEventListener("resize", handleResize)
 
         useEffect(() => {
-                axios.post("http://127.0.0.1:8800/mobile/stores/").then(response => setStores(response.data))
+                setLoading(true);
+                axios.post("http://127.0.0.1:8800/mobile/stores/")
+                        .then(response => {
+                                setStores(response.data);
+                                setLoading(false);
+                        })
         }, [])
 
         return (
@@ -49,29 +55,31 @@ export default function Mobile() {
                                                         <ItemContext.Provider value={[item, setItem]}>
                                                                 <ItemsContext.Provider value={[items, setItems]}>
                                                                         <ActionContext.Provider value={[action, setAction]}>
-                                                                                <Grid container id="searchRow" sx={{ borderBottom: border }} size={12}>
-                                                                                        <Grid size={leftCol} p={1}
-                                                                                                sx={{ borderRight: border }} >
-                                                                                                <ActionSelect />
+                                                                                <LoadingContext.Provider value={[loading, setLoading]}>
+                                                                                        <Grid container id="searchRow" sx={{ borderBottom: border }} size={12}>
+                                                                                                <Grid size={leftCol} p={1}
+                                                                                                        sx={{ borderRight: border }} >
+                                                                                                        <ActionSelect />
+                                                                                                </Grid>
+                                                                                                <Grid size={12 - leftCol} p={1}>
+                                                                                                        <SearchBar />
+                                                                                                </Grid>
                                                                                         </Grid>
-                                                                                        <Grid size={12 - leftCol} p={1}>
-                                                                                                <SearchBar />
-                                                                                        </Grid>
-                                                                                </Grid>
-                                                                                <Grid container size={12}>
-                                                                                        <Grid size={leftCol}
-                                                                                                sx={{
-                                                                                                        height: `calc(${height} - ${searchHeight})`,
-                                                                                                        borderRight: border,
-                                                                                                        overflowY: "auto",
-                                                                                                        scrollbarWidth: "none"
-                                                                                                }}>
-                                                                                                <ItemList /></Grid>
-                                                                                        <Grid size={12 - leftCol}>
-                                                                                                {item ? <ItemCard /> : ''}
-                                                                                        </Grid>
+                                                                                        <Grid container size={12}>
+                                                                                                <Grid size={leftCol}
+                                                                                                        sx={{
+                                                                                                                height: `calc(${height} - ${searchHeight})`,
+                                                                                                                borderRight: border,
+                                                                                                                overflowY: "auto",
+                                                                                                                scrollbarWidth: "none"
+                                                                                                        }}>
+                                                                                                        <ItemList /></Grid>
+                                                                                                <Grid size={12 - leftCol}>
+                                                                                                        {item ? <ItemCard /> : ''}
+                                                                                                </Grid>
 
-                                                                                </Grid>
+                                                                                        </Grid>
+                                                                                </LoadingContext.Provider>
                                                                         </ActionContext.Provider>
                                                                 </ItemsContext.Provider>
                                                         </ItemContext.Provider>
@@ -79,5 +87,6 @@ export default function Mobile() {
                                         </StoresContext.Provider>
                                 </DataContext.Provider>
                         </Box >
-                </ Box>)
+                        {loading && <CircularProgress size={'16vh'} sx={{ position: 'absolute', top: '42bv', left: "-5vh", marginLeft: "50%" }} />}
+                </ Box >)
 }
