@@ -1,0 +1,1100 @@
+[
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "6157991",
+      "self": "https://jira.metro-cc.ru/rest/api/2/issue/6157991",
+      "key": "ITREQ-117367",
+      "fields": {
+        "customfield_23700": null,
+        "customfield_19200": null,
+        "customfield_21400": null,
+        "customfield_23701": null,
+        "customfield_23702": null,
+        "customfield_23704": null,
+        "customfield_23705": null,
+        "customfield_23706": null,
+        "customfield_23707": null,
+        "customfield_23708": null,
+        "customfield_23709": null,
+        "resolution": null,
+        "customfield_13106": null,
+        "customfield_10510": null,
+        "customfield_10500": null,
+        "customfield_12800": [
+          {
+            "self": "https://jira.metro-cc.ru/rest/api/2/customFieldOption/14012",
+            "value": "iPad",
+            "id": "14012"
+          }
+        ],
+        "customfield_10501": null,
+        "customfield_12802": null,
+        "customfield_12801": null,
+        "customfield_12803": null,
+        "customfield_22608": null,
+        "customfield_22728": null,
+        "customfield_24000": null,
+        "customfield_22727": null,
+        "customfield_22605": null,
+        "customfield_22726": null,
+        "customfield_22725": null,
+        "customfield_22604": null,
+        "customfield_22724": null,
+        "customfield_22723": null,
+        "customfield_22722": null,
+        "customfield_22721": null,
+        "customfield_23710": null,
+        "customfield_22600": null,
+        "customfield_22720": null,
+        "customfield_23711": null,
+        "customfield_18100": null,
+        "customfield_20300": null,
+        "lastViewed": "2024-12-13T15:38:43.546+0300",
+        "customfield_23713": null,
+        "customfield_23715": null,
+        "customfield_23716": null,
+        "customfield_23717": null,
+        "customfield_16600": null,
+        "customfield_18900": null,
+        "customfield_16604": null,
+        "customfield_16602": null,
+        "labels": [
+          "Berezhnov"
+        ],
+        "aggregatetimeoriginalestimate": null,
+        "customfield_22719": null,
+        "customfield_22718": null,
+        "customfield_22717": null,
+        "customfield_22716": null,
+        "customfield_22715": null,
+        "issuelinks": [],
+        "assignee": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/user?username=artem.berezhnov",
+          "name": "artem.berezhnov",
+          "key": "artem.berezhnov",
+          "emailAddress": "artem.berezhnov@metro-cc.ru",
+          "avatarUrls": {
+            "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10349",
+            "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10349",
+            "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10349",
+            "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10349"
+          },
+          "displayName": "Berezhnov, Artem",
+          "active": true,
+          "timeZone": "Europe/Moscow"
+        },
+        "customfield_23600": null,
+        "customfield_23603": null,
+        "components": [],
+        "customfield_17001": null,
+        "customfield_17000": null,
+        "customfield_13200": null,
+        "customfield_15503": null,
+        "customfield_17802": null,
+        "customfield_17801": null,
+        "customfield_12108": null,
+        "customfield_22708": null,
+        "customfield_22706": null,
+        "customfield_22703": null,
+        "customfield_22701": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/customFieldOption/28606",
+          "value": "Нет",
+          "id": "28606"
+        },
+        "customfield_22700": null,
+        "customfield_18200": null,
+        "subtasks": [],
+        "reporter": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/user?username=anton.kalinichev",
+          "name": "anton.kalinichev",
+          "key": "anton.kalinichev",
+          "emailAddress": "anton.kalinichev@metro-cc.ru",
+          "avatarUrls": {
+            "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10122",
+            "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10122",
+            "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10122",
+            "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10122"
+          },
+          "displayName": "Kalinichev, Anton",
+          "active": true,
+          "timeZone": "Europe/Moscow"
+        },
+        "customfield_12100": null,
+        "customfield_12102": null,
+        "customfield_12104": null,
+        "customfield_21606": null,
+        "progress": {
+          "progress": 0,
+          "total": 0
+        },
+        "customfield_21602": null,
+        "customfield_21601": null,
+        "customfield_23503": null,
+        "issuetype": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/issuetype/11000",
+          "id": "11000",
+          "description": "Заявка HW/SW Request",
+          "iconUrl": "https://jira.metro-cc.ru/secure/viewavatar?size=xsmall&avatarId=10323&avatarType=issuetype",
+          "name": "HW/SW Request",
+          "subtask": false,
+          "avatarId": 10323
+        },
+        "customfield_23504": null,
+        "customfield_19400": null,
+        "customfield_23505": null,
+        "customfield_17102": null,
+        "customfield_23506": null,
+        "customfield_17101": null,
+        "customfield_23100": null,
+        "customfield_17100": null,
+        "project": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/project/11400",
+          "id": "11400",
+          "key": "ITREQ",
+          "name": "IT Requests",
+          "projectTypeKey": "service_desk",
+          "avatarUrls": {
+            "48x48": "https://jira.metro-cc.ru/secure/projectavatar?avatarId=10324",
+            "24x24": "https://jira.metro-cc.ru/secure/projectavatar?size=small&avatarId=10324",
+            "16x16": "https://jira.metro-cc.ru/secure/projectavatar?size=xsmall&avatarId=10324",
+            "32x32": "https://jira.metro-cc.ru/secure/projectavatar?size=medium&avatarId=10324"
+          },
+          "projectCategory": {
+            "self": "https://jira.metro-cc.ru/rest/api/2/projectCategory/10400",
+            "id": "10400",
+            "description": "МОЦО",
+            "name": "MCoE"
+          }
+        },
+        "customfield_17103": null,
+        "customfield_17900": null,
+        "customfield_10702": [
+          {
+            "self": "https://jira.metro-cc.ru/rest/api/2/customFieldOption/14115",
+            "value": "1082 Ростов-на-Дону",
+            "id": "14115"
+          }
+        ],
+        "resolutiondate": null,
+        "customfield_20505": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/customFieldOption/25029",
+          "value": "Да",
+          "id": "25029"
+        },
+        "customfield_22803": null,
+        "customfield_20503": null,
+        "customfield_20504": null,
+        "customfield_22802": null,
+        "customfield_20502": null,
+        "customfield_22127": null,
+        "customfield_22126": null,
+        "customfield_23215": null,
+        "customfield_22125": null,
+        "customfield_23214": null,
+        "watches": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/issue/ITREQ-117367/watchers",
+          "watchCount": 2,
+          "isWatching": false
+        },
+        "customfield_23213": null,
+        "customfield_22124": null,
+        "customfield_22123": null,
+        "customfield_22122": null,
+        "customfield_23210": null,
+        "customfield_22121": null,
+        "customfield_22120": null,
+        "customfield_16800": null,
+        "customfield_11900": null,
+        "customfield_23209": "[WIRELESS HANDHELD|https://jirainvent.metro-cc.ru/secure/insight/assets/IN-165779] ",
+        "customfield_22119": null,
+        "customfield_22118": null,
+        "customfield_23207": null,
+        "updated": "2024-12-13T13:12:06.000+0300",
+        "customfield_22117": null,
+        "customfield_23206": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/customFieldOption/29257",
+          "value": "Внутренний сотрудник",
+          "id": "29257"
+        },
+        "customfield_22116": null,
+        "customfield_23402": null,
+        "customfield_23403": null,
+        "customfield_22115": null,
+        "customfield_23404": null,
+        "customfield_22114": null,
+        "customfield_22113": null,
+        "customfield_23405": null,
+        "customfield_23202": null,
+        "customfield_22112": null,
+        "customfield_23201": null,
+        "customfield_22111": null,
+        "customfield_23407": null,
+        "customfield_17200": null,
+        "customfield_22110": null,
+        "customfield_23408": null,
+        "timeoriginalestimate": null,
+        "description": "|*User Name*|anton.kalinichev|\r\n|*Department*|Traders Group|\r\n|*Position*|Traders Territory Sales Specialist|\r\n|*Type user*|Внутренний сотрудник|\r\n|*Selected Hardware*| |\r\n| |iPad|\r\n|*Hardware Storage*|Есть в наличии (пересылка не требуется)|\r\n|*Reason*|служебная необходимость|\r\n|*Оборудование*|IN-165779\\DMPCG13GMDFT - тип: WIRELESS HANDHELD, локация: EDP Storage, ТЦ: 1082, статус: Free\r\n|",
+        "customfield_17202": null,
+        "customfield_19501": null,
+        "customfield_13400": "114355",
+        "customfield_10800": null,
+        "customfield_14608": null,
+        "customfield_21019": null,
+        "customfield_22108": null,
+        "customfield_21018": null,
+        "customfield_21017": null,
+        "customfield_22106": null,
+        "customfield_21016": null,
+        "summary": "HW/SW Request",
+        "customfield_10000": [
+          {
+            "id": "791143",
+            "name": "Check HW/SW",
+            "finalDecision": "approved",
+            "canAnswerApproval": false,
+            "approvers": [],
+            "createdDate": {
+              "iso8601": "2024-12-11T16:25:43+0300",
+              "jira": "2024-12-11T16:25:43.745+0300",
+              "friendly": "11/12/2024 16:25",
+              "epochMillis": 1733923543745
+            },
+            "completedDate": {
+              "iso8601": "2024-12-11T16:26:09+0300",
+              "jira": "2024-12-11T16:26:09.214+0300",
+              "friendly": "11/12/2024 16:26",
+              "epochMillis": 1733923569214
+            },
+            "_links": {
+              "self": "https://jira.metro-cc.ru/rest/servicedeskapi/request/6157991/approval/791143"
+            }
+          },
+          {
+            "id": "790876",
+            "name": "DM APPROVE",
+            "finalDecision": "approved",
+            "canAnswerApproval": false,
+            "approvers": [],
+            "createdDate": {
+              "iso8601": "2024-12-11T10:57:49+0300",
+              "jira": "2024-12-11T10:57:49.941+0300",
+              "friendly": "11/12/2024 10:57",
+              "epochMillis": 1733903869941
+            },
+            "completedDate": {
+              "iso8601": "2024-12-11T16:10:08+0300",
+              "jira": "2024-12-11T16:10:08.661+0300",
+              "friendly": "11/12/2024 16:10",
+              "epochMillis": 1733922608661
+            },
+            "_links": {
+              "self": "https://jira.metro-cc.ru/rest/servicedeskapi/request/6157991/approval/790876"
+            }
+          },
+          {
+            "id": "791124",
+            "name": "MSYS APPROVE",
+            "finalDecision": "approved",
+            "canAnswerApproval": false,
+            "approvers": [],
+            "createdDate": {
+              "iso8601": "2024-12-11T16:10:09+0300",
+              "jira": "2024-12-11T16:10:09.301+0300",
+              "friendly": "11/12/2024 16:10",
+              "epochMillis": 1733922609301
+            },
+            "completedDate": {
+              "iso8601": "2024-12-11T16:25:42+0300",
+              "jira": "2024-12-11T16:25:42.776+0300",
+              "friendly": "11/12/2024 16:25",
+              "epochMillis": 1733923542776
+            },
+            "_links": {
+              "self": "https://jira.metro-cc.ru/rest/servicedeskapi/request/6157991/approval/791124"
+            }
+          }
+        ],
+        "customfield_10001": {
+          "_links": {
+            "jiraRest": "https://jira.metro-cc.ru/rest/api/2/issue/6157991",
+            "web": "https://jira.metro-cc.ru/servicedesk/customer/portal/281/ITREQ-117367",
+            "self": "https://jira.metro-cc.ru/rest/servicedeskapi/request/6157991"
+          },
+          "requestType": {
+            "id": "681",
+            "_links": {
+              "self": "https://jira.metro-cc.ru/rest/servicedeskapi/servicedesk/281/requesttype/681"
+            },
+            "name": "Запросить установку или покупку нового приложения или оборудования",
+            "description": "Hardware / Software request",
+            "helpText": "{panel: borderColor=red|borderWidth=3px|borderStyle=double}{color:red}*ВНИМАНИЕ!* {color}\\\\ В торговых центрах доступ к созданию данной заявки есть только у\\\\* Store Manager \\\\* Administrative Specialist \\\\* Deputy Store Manager \\\\* Sales Manager \\\\* HR Manager \\\\* HR Specialist{panel}",
+            "serviceDeskId": "281",
+            "groupIds": [
+              "1824",
+              "1823"
+            ],
+            "icon": {
+              "id": "10537",
+              "_links": {
+                "iconUrls": {
+                  "48x48": "https://jira.metro-cc.ru/secure/viewavatar?avatarType=SD_REQTYPE&size=large&avatarId=10537",
+                  "24x24": "https://jira.metro-cc.ru/secure/viewavatar?avatarType=SD_REQTYPE&size=small&avatarId=10537",
+                  "16x16": "https://jira.metro-cc.ru/secure/viewavatar?avatarType=SD_REQTYPE&size=xsmall&avatarId=10537",
+                  "32x32": "https://jira.metro-cc.ru/secure/viewavatar?avatarType=SD_REQTYPE&size=medium&avatarId=10537"
+                }
+              }
+            }
+          },
+          "currentStatus": {
+            "status": "SSS To Do",
+            "statusDate": {
+              "iso8601": "2024-12-11T16:26:21+0300",
+              "jira": "2024-12-11T16:26:21.000+0300",
+              "friendly": "11/12/2024 16:26",
+              "epochMillis": 1733923581000
+            }
+          }
+        },
+        "customfield_10002": [
+          {
+            "self": "https://jira.metro-cc.ru/rest/api/2/user?username=anton.kalinichev",
+            "name": "anton.kalinichev",
+            "key": "anton.kalinichev",
+            "emailAddress": "anton.kalinichev@metro-cc.ru",
+            "avatarUrls": {
+              "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10122",
+              "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10122",
+              "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10122",
+              "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10122"
+            },
+            "displayName": "Kalinichev, Anton",
+            "active": true,
+            "timeZone": "Europe/Moscow"
+          },
+          {
+            "self": "https://jira.metro-cc.ru/rest/api/2/user?username=igor.tikhonov",
+            "name": "igor.tikhonov",
+            "key": "igor.tikhonov",
+            "emailAddress": "igor.tikhonov@metro-cc.ru",
+            "avatarUrls": {
+              "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10122",
+              "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10122",
+              "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10122",
+              "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10122"
+            },
+            "displayName": "Tikhonov, Igor",
+            "active": true,
+            "timeZone": "Europe/Moscow"
+          }
+        ],
+        "customfield_10003": null,
+        "customfield_10004": null,
+        "customfield_21808": null,
+        "customfield_21807": null,
+        "customfield_21806": null,
+        "customfield_21805": null,
+        "customfield_21804": null,
+        "customfield_21803": null,
+        "customfield_21802": null,
+        "customfield_21801": null,
+        "customfield_21008": null,
+        "customfield_21007": null,
+        "customfield_23303": null,
+        "customfield_23304": null,
+        "customfield_23302": null,
+        "customfield_23305": null,
+        "customfield_21002": null,
+        "customfield_23301": null,
+        "customfield_23306": null,
+        "customfield_23300": null,
+        "customfield_23307": null,
+        "customfield_21000": null,
+        "customfield_15001": null,
+        "customfield_15003": null,
+        "customfield_14704": null,
+        "customfield_20703": null,
+        "customfield_20702": null,
+        "customfield_20700": null,
+        "customfield_22206": null,
+        "customfield_22205": null,
+        "customfield_22204": null,
+        "customfield_22202": null,
+        "customfield_10100": null,
+        "priority": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/priority/4",
+          "iconUrl": "https://jira.metro-cc.ru/images/icons/priorities/trivial.svg",
+          "name": "4",
+          "id": "4"
+        },
+        "customfield_18501": "{\"fieldId\":\"18501\",\"fieldConfigId\":\"1\",\"jibrokMessageKey\":\"true\",\"jibrokMessageIsDefault\":\"true\"}",
+        "customfield_18502": null,
+        "customfield_12401": null,
+        "timeestimate": null,
+        "customfield_21902": null,
+        "customfield_21901": null,
+        "status": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/status/14300",
+          "description": "Используется вместо создания инцидента в IT",
+          "iconUrl": "https://jira.metro-cc.ru/images/icons/statuses/generic.png",
+          "name": "SSS To Do",
+          "id": "14300",
+          "statusCategory": {
+            "self": "https://jira.metro-cc.ru/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "В работе"
+          }
+        },
+        "customfield_22313": null,
+        "customfield_21102": null,
+        "customfield_22312": null,
+        "customfield_22311": null,
+        "customfield_22310": null,
+        "aggregatetimeestimate": null,
+        "customfield_22309": null,
+        "customfield_20800": null,
+        "customfield_22308": null,
+        "customfield_20801": null,
+        "customfield_22307": null,
+        "customfield_22305": null,
+        "creator": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/user?username=igor.tikhonov",
+          "name": "igor.tikhonov",
+          "key": "igor.tikhonov",
+          "emailAddress": "igor.tikhonov@metro-cc.ru",
+          "avatarUrls": {
+            "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10122",
+            "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10122",
+            "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10122",
+            "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10122"
+          },
+          "displayName": "Tikhonov, Igor",
+          "active": true,
+          "timeZone": "Europe/Moscow"
+        },
+        "aggregateprogress": {
+          "progress": 0,
+          "total": 0
+        },
+        "customfield_10200": [],
+        "customfield_18601": null,
+        "customfield_22413": null,
+        "customfield_22412": null,
+        "customfield_19004": null,
+        "customfield_23900": null,
+        "customfield_19005": null,
+        "timespent": null,
+        "customfield_17500": null,
+        "customfield_15200": null,
+        "aggregatetimespent": null,
+        "customfield_19008": null,
+        "customfield_14109": null,
+        "customfield_18706": null,
+        "customfield_18708": null,
+        "customfield_18709": null,
+        "customfield_22408": null,
+        "workratio": -1,
+        "customfield_22406": null,
+        "customfield_20900": null,
+        "customfield_22403": null,
+        "customfield_22402": null,
+        "customfield_22401": null,
+        "customfield_22400": null,
+        "created": "2024-12-11T10:57:45.000+0300",
+        "customfield_18702": null,
+        "customfield_18705": null,
+        "customfield_18701": null,
+        "customfield_16517": null,
+        "customfield_22516": null,
+        "customfield_22511": null,
+        "customfield_21300": null,
+        "customfield_23801": null,
+        "customfield_23802": null,
+        "customfield_23803": null,
+        "customfield_23804": null,
+        "customfield_23805": null,
+        "customfield_23806": null,
+        "customfield_19901": null,
+        "customfield_23807": null,
+        "customfield_23808": null,
+        "customfield_13003": null,
+        "customfield_23809": null,
+        "customfield_16516": null,
+        "customfield_13004": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/user?username=anton.kalinichev",
+          "name": "anton.kalinichev",
+          "key": "anton.kalinichev",
+          "emailAddress": "anton.kalinichev@metro-cc.ru",
+          "avatarUrls": {
+            "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10122",
+            "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10122",
+            "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10122",
+            "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10122"
+          },
+          "displayName": "Kalinichev, Anton",
+          "active": true,
+          "timeZone": "Europe/Moscow"
+        },
+        "security": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/securitylevel/10204",
+          "id": "10204",
+          "description": "Доступно участникам заявки",
+          "name": "Default level"
+        },
+        "customfield_24100": null,
+        "customfield_20206": null,
+        "customfield_18801": null,
+        "customfield_11601": null
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "6157955",
+      "self": "https://jira.metro-cc.ru/rest/api/2/issue/6157955",
+      "key": "ITREQ-117365",
+      "fields": {
+        "customfield_23700": null,
+        "customfield_19200": null,
+        "customfield_21400": null,
+        "customfield_23701": null,
+        "customfield_23702": null,
+        "customfield_23704": null,
+        "customfield_23705": null,
+        "customfield_23706": null,
+        "customfield_23707": null,
+        "customfield_23708": null,
+        "customfield_23709": null,
+        "resolution": null,
+        "customfield_13106": null,
+        "customfield_10510": null,
+        "customfield_10500": null,
+        "customfield_12800": [
+          {
+            "self": "https://jira.metro-cc.ru/rest/api/2/customFieldOption/14012",
+            "value": "iPad",
+            "id": "14012"
+          }
+        ],
+        "customfield_10501": null,
+        "customfield_12802": null,
+        "customfield_12801": null,
+        "customfield_12803": null,
+        "customfield_22608": null,
+        "customfield_22728": null,
+        "customfield_24000": null,
+        "customfield_22727": null,
+        "customfield_22605": null,
+        "customfield_22726": null,
+        "customfield_22725": null,
+        "customfield_22604": null,
+        "customfield_22724": null,
+        "customfield_22723": null,
+        "customfield_22722": null,
+        "customfield_22721": null,
+        "customfield_23710": null,
+        "customfield_22600": null,
+        "customfield_22720": null,
+        "customfield_23711": null,
+        "customfield_18100": null,
+        "customfield_20300": null,
+        "lastViewed": "2024-12-13T15:38:23.593+0300",
+        "customfield_23713": null,
+        "customfield_23715": null,
+        "customfield_23716": null,
+        "customfield_23717": null,
+        "customfield_16600": null,
+        "customfield_18900": null,
+        "customfield_16604": null,
+        "customfield_16602": null,
+        "labels": [
+          "Berezhnov"
+        ],
+        "aggregatetimeoriginalestimate": null,
+        "customfield_22719": null,
+        "customfield_22718": null,
+        "customfield_22717": null,
+        "customfield_22716": null,
+        "customfield_22715": null,
+        "issuelinks": [],
+        "assignee": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/user?username=artem.berezhnov",
+          "name": "artem.berezhnov",
+          "key": "artem.berezhnov",
+          "emailAddress": "artem.berezhnov@metro-cc.ru",
+          "avatarUrls": {
+            "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10349",
+            "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10349",
+            "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10349",
+            "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10349"
+          },
+          "displayName": "Berezhnov, Artem",
+          "active": true,
+          "timeZone": "Europe/Moscow"
+        },
+        "customfield_23600": null,
+        "customfield_23603": null,
+        "components": [],
+        "customfield_17001": null,
+        "customfield_17000": null,
+        "customfield_13200": null,
+        "customfield_15503": null,
+        "customfield_17802": null,
+        "customfield_17801": null,
+        "customfield_12108": null,
+        "customfield_22708": null,
+        "customfield_22706": null,
+        "customfield_22703": null,
+        "customfield_22701": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/customFieldOption/28606",
+          "value": "Нет",
+          "id": "28606"
+        },
+        "customfield_22700": null,
+        "customfield_18200": null,
+        "subtasks": [],
+        "reporter": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/user?username=vladislav.lyubimov",
+          "name": "vladislav.lyubimov",
+          "key": "vladislav.lyubimov",
+          "emailAddress": "vladislav.lyubimov@metro-cc.ru",
+          "avatarUrls": {
+            "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10122",
+            "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10122",
+            "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10122",
+            "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10122"
+          },
+          "displayName": "Lyubimov, Vladislav",
+          "active": true,
+          "timeZone": "Europe/Moscow"
+        },
+        "customfield_12100": null,
+        "customfield_12102": null,
+        "customfield_12104": null,
+        "customfield_21606": null,
+        "progress": {
+          "progress": 0,
+          "total": 0
+        },
+        "customfield_21602": null,
+        "customfield_21601": null,
+        "customfield_23503": null,
+        "issuetype": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/issuetype/11000",
+          "id": "11000",
+          "description": "Заявка HW/SW Request",
+          "iconUrl": "https://jira.metro-cc.ru/secure/viewavatar?size=xsmall&avatarId=10323&avatarType=issuetype",
+          "name": "HW/SW Request",
+          "subtask": false,
+          "avatarId": 10323
+        },
+        "customfield_23504": null,
+        "customfield_19400": null,
+        "customfield_23505": null,
+        "customfield_17102": null,
+        "customfield_23506": null,
+        "customfield_17101": null,
+        "customfield_23100": null,
+        "customfield_17100": null,
+        "project": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/project/11400",
+          "id": "11400",
+          "key": "ITREQ",
+          "name": "IT Requests",
+          "projectTypeKey": "service_desk",
+          "avatarUrls": {
+            "48x48": "https://jira.metro-cc.ru/secure/projectavatar?avatarId=10324",
+            "24x24": "https://jira.metro-cc.ru/secure/projectavatar?size=small&avatarId=10324",
+            "16x16": "https://jira.metro-cc.ru/secure/projectavatar?size=xsmall&avatarId=10324",
+            "32x32": "https://jira.metro-cc.ru/secure/projectavatar?size=medium&avatarId=10324"
+          },
+          "projectCategory": {
+            "self": "https://jira.metro-cc.ru/rest/api/2/projectCategory/10400",
+            "id": "10400",
+            "description": "МОЦО",
+            "name": "MCoE"
+          }
+        },
+        "customfield_17103": null,
+        "customfield_17900": null,
+        "customfield_10702": [
+          {
+            "self": "https://jira.metro-cc.ru/rest/api/2/customFieldOption/14115",
+            "value": "1082 Ростов-на-Дону",
+            "id": "14115"
+          }
+        ],
+        "resolutiondate": null,
+        "customfield_20505": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/customFieldOption/25029",
+          "value": "Да",
+          "id": "25029"
+        },
+        "customfield_22803": null,
+        "customfield_20503": null,
+        "customfield_20504": null,
+        "customfield_22802": null,
+        "customfield_20502": null,
+        "customfield_22127": null,
+        "customfield_22126": null,
+        "customfield_23215": null,
+        "customfield_22125": null,
+        "customfield_23214": null,
+        "watches": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/issue/ITREQ-117365/watchers",
+          "watchCount": 2,
+          "isWatching": false
+        },
+        "customfield_23213": null,
+        "customfield_22124": null,
+        "customfield_22123": null,
+        "customfield_22122": null,
+        "customfield_23210": null,
+        "customfield_22121": null,
+        "customfield_22120": null,
+        "customfield_16800": null,
+        "customfield_11900": null,
+        "customfield_23209": "[WIRELESS HANDHELD|https://jirainvent.metro-cc.ru/secure/insight/assets/IN-165777] ",
+        "customfield_22119": null,
+        "customfield_22118": null,
+        "customfield_23207": null,
+        "updated": "2024-12-12T10:52:25.000+0300",
+        "customfield_22117": null,
+        "customfield_23206": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/customFieldOption/29257",
+          "value": "Внутренний сотрудник",
+          "id": "29257"
+        },
+        "customfield_22116": null,
+        "customfield_23402": null,
+        "customfield_23403": null,
+        "customfield_22115": null,
+        "customfield_23404": null,
+        "customfield_22114": null,
+        "customfield_22113": null,
+        "customfield_23405": null,
+        "customfield_23202": null,
+        "customfield_22112": null,
+        "customfield_23201": null,
+        "customfield_22111": null,
+        "customfield_23407": null,
+        "customfield_17200": null,
+        "customfield_22110": null,
+        "customfield_23408": null,
+        "timeoriginalestimate": null,
+        "description": "|*User Name*|vladislav.lyubimov|\r\n|*Department*|Traders Group|\r\n|*Position*|Traders Territory Sales Specialist|\r\n|*Type user*|Внутренний сотрудник|\r\n|*Selected Hardware*| |\r\n| |iPad|\r\n|*Hardware Storage*|Есть в наличии (пересылка не требуется)|\r\n|*Reason*|служебная необходимость|\r\n|*Оборудование*|IN-165777\\DMPCG0Z8MDFT - тип: WIRELESS HANDHELD, локация: EDP Storage, ТЦ: 1082, статус: Free\r\n|",
+        "customfield_17202": null,
+        "customfield_19501": null,
+        "customfield_13400": "114353",
+        "customfield_10800": null,
+        "customfield_14608": null,
+        "customfield_21019": null,
+        "customfield_22108": null,
+        "customfield_21018": null,
+        "customfield_21017": null,
+        "customfield_22106": null,
+        "customfield_21016": null,
+        "summary": "HW/SW Request",
+        "customfield_10000": [
+          {
+            "id": "790873",
+            "name": "DM APPROVE",
+            "finalDecision": "approved",
+            "canAnswerApproval": false,
+            "approvers": [],
+            "createdDate": {
+              "iso8601": "2024-12-11T10:55:21+0300",
+              "jira": "2024-12-11T10:55:21.876+0300",
+              "friendly": "11/12/2024 10:55",
+              "epochMillis": 1733903721876
+            },
+            "completedDate": {
+              "iso8601": "2024-12-11T16:10:30+0300",
+              "jira": "2024-12-11T16:10:30.333+0300",
+              "friendly": "11/12/2024 16:10",
+              "epochMillis": 1733922630333
+            },
+            "_links": {
+              "self": "https://jira.metro-cc.ru/rest/servicedeskapi/request/6157955/approval/790873"
+            }
+          },
+          {
+            "id": "791125",
+            "name": "MSYS APPROVE",
+            "finalDecision": "approved",
+            "canAnswerApproval": false,
+            "approvers": [],
+            "createdDate": {
+              "iso8601": "2024-12-11T16:10:31+0300",
+              "jira": "2024-12-11T16:10:31.395+0300",
+              "friendly": "11/12/2024 16:10",
+              "epochMillis": 1733922631395
+            },
+            "completedDate": {
+              "iso8601": "2024-12-11T16:25:36+0300",
+              "jira": "2024-12-11T16:25:36.057+0300",
+              "friendly": "11/12/2024 16:25",
+              "epochMillis": 1733923536057
+            },
+            "_links": {
+              "self": "https://jira.metro-cc.ru/rest/servicedeskapi/request/6157955/approval/791125"
+            }
+          },
+          {
+            "id": "791142",
+            "name": "Check HW/SW",
+            "finalDecision": "approved",
+            "canAnswerApproval": false,
+            "approvers": [],
+            "createdDate": {
+              "iso8601": "2024-12-11T16:25:37+0300",
+              "jira": "2024-12-11T16:25:37.073+0300",
+              "friendly": "11/12/2024 16:25",
+              "epochMillis": 1733923537073
+            },
+            "completedDate": {
+              "iso8601": "2024-12-11T16:26:24+0300",
+              "jira": "2024-12-11T16:26:24.230+0300",
+              "friendly": "11/12/2024 16:26",
+              "epochMillis": 1733923584230
+            },
+            "_links": {
+              "self": "https://jira.metro-cc.ru/rest/servicedeskapi/request/6157955/approval/791142"
+            }
+          }
+        ],
+        "customfield_10001": {
+          "_links": {
+            "jiraRest": "https://jira.metro-cc.ru/rest/api/2/issue/6157955",
+            "web": "https://jira.metro-cc.ru/servicedesk/customer/portal/281/ITREQ-117365",
+            "self": "https://jira.metro-cc.ru/rest/servicedeskapi/request/6157955"
+          },
+          "requestType": {
+            "id": "681",
+            "_links": {
+              "self": "https://jira.metro-cc.ru/rest/servicedeskapi/servicedesk/281/requesttype/681"
+            },
+            "name": "Запросить установку или покупку нового приложения или оборудования",
+            "description": "Hardware / Software request",
+            "helpText": "{panel: borderColor=red|borderWidth=3px|borderStyle=double}{color:red}*ВНИМАНИЕ!* {color}\\\\ В торговых центрах доступ к созданию данной заявки есть только у\\\\* Store Manager \\\\* Administrative Specialist \\\\* Deputy Store Manager \\\\* Sales Manager \\\\* HR Manager \\\\* HR Specialist{panel}",
+            "serviceDeskId": "281",
+            "groupIds": [
+              "1824",
+              "1823"
+            ],
+            "icon": {
+              "id": "10537",
+              "_links": {
+                "iconUrls": {
+                  "48x48": "https://jira.metro-cc.ru/secure/viewavatar?avatarType=SD_REQTYPE&size=large&avatarId=10537",
+                  "24x24": "https://jira.metro-cc.ru/secure/viewavatar?avatarType=SD_REQTYPE&size=small&avatarId=10537",
+                  "16x16": "https://jira.metro-cc.ru/secure/viewavatar?avatarType=SD_REQTYPE&size=xsmall&avatarId=10537",
+                  "32x32": "https://jira.metro-cc.ru/secure/viewavatar?avatarType=SD_REQTYPE&size=medium&avatarId=10537"
+                }
+              }
+            }
+          },
+          "currentStatus": {
+            "status": "SSS To Do",
+            "statusDate": {
+              "iso8601": "2024-12-11T16:26:35+0300",
+              "jira": "2024-12-11T16:26:35.000+0300",
+              "friendly": "11/12/2024 16:26",
+              "epochMillis": 1733923595000
+            }
+          }
+        },
+        "customfield_10002": [
+          {
+            "self": "https://jira.metro-cc.ru/rest/api/2/user?username=vladislav.lyubimov",
+            "name": "vladislav.lyubimov",
+            "key": "vladislav.lyubimov",
+            "emailAddress": "vladislav.lyubimov@metro-cc.ru",
+            "avatarUrls": {
+              "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10122",
+              "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10122",
+              "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10122",
+              "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10122"
+            },
+            "displayName": "Lyubimov, Vladislav",
+            "active": true,
+            "timeZone": "Europe/Moscow"
+          },
+          {
+            "self": "https://jira.metro-cc.ru/rest/api/2/user?username=igor.tikhonov",
+            "name": "igor.tikhonov",
+            "key": "igor.tikhonov",
+            "emailAddress": "igor.tikhonov@metro-cc.ru",
+            "avatarUrls": {
+              "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10122",
+              "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10122",
+              "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10122",
+              "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10122"
+            },
+            "displayName": "Tikhonov, Igor",
+            "active": true,
+            "timeZone": "Europe/Moscow"
+          }
+        ],
+        "customfield_10003": null,
+        "customfield_10004": null,
+        "customfield_21808": null,
+        "customfield_21807": null,
+        "customfield_21806": null,
+        "customfield_21805": null,
+        "customfield_21804": null,
+        "customfield_21803": null,
+        "customfield_21802": null,
+        "customfield_21801": null,
+        "customfield_21008": null,
+        "customfield_21007": null,
+        "customfield_23303": null,
+        "customfield_23304": null,
+        "customfield_23302": null,
+        "customfield_23305": null,
+        "customfield_21002": null,
+        "customfield_23301": null,
+        "customfield_23306": null,
+        "customfield_23300": null,
+        "customfield_23307": null,
+        "customfield_21000": null,
+        "customfield_15001": null,
+        "customfield_15003": null,
+        "customfield_14704": null,
+        "customfield_20703": null,
+        "customfield_20702": null,
+        "customfield_20700": null,
+        "customfield_22206": null,
+        "customfield_22205": null,
+        "customfield_22204": null,
+        "customfield_22202": null,
+        "customfield_10100": null,
+        "priority": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/priority/4",
+          "iconUrl": "https://jira.metro-cc.ru/images/icons/priorities/trivial.svg",
+          "name": "4",
+          "id": "4"
+        },
+        "customfield_18501": "{\"fieldId\":\"18501\",\"fieldConfigId\":\"1\",\"jibrokMessageKey\":\"true\",\"jibrokMessageIsDefault\":\"true\"}",
+        "customfield_18502": null,
+        "customfield_12401": null,
+        "timeestimate": null,
+        "customfield_21902": null,
+        "customfield_21901": null,
+        "status": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/status/14300",
+          "description": "Используется вместо создания инцидента в IT",
+          "iconUrl": "https://jira.metro-cc.ru/images/icons/statuses/generic.png",
+          "name": "SSS To Do",
+          "id": "14300",
+          "statusCategory": {
+            "self": "https://jira.metro-cc.ru/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "В работе"
+          }
+        },
+        "customfield_22313": null,
+        "customfield_21102": null,
+        "customfield_22312": null,
+        "customfield_22311": null,
+        "customfield_22310": null,
+        "aggregatetimeestimate": null,
+        "customfield_22309": null,
+        "customfield_20800": null,
+        "customfield_22308": null,
+        "customfield_20801": null,
+        "customfield_22307": null,
+        "customfield_22305": null,
+        "creator": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/user?username=igor.tikhonov",
+          "name": "igor.tikhonov",
+          "key": "igor.tikhonov",
+          "emailAddress": "igor.tikhonov@metro-cc.ru",
+          "avatarUrls": {
+            "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10122",
+            "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10122",
+            "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10122",
+            "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10122"
+          },
+          "displayName": "Tikhonov, Igor",
+          "active": true,
+          "timeZone": "Europe/Moscow"
+        },
+        "aggregateprogress": {
+          "progress": 0,
+          "total": 0
+        },
+        "customfield_10200": [],
+        "customfield_18601": null,
+        "customfield_22413": null,
+        "customfield_22412": null,
+        "customfield_19004": null,
+        "customfield_23900": null,
+        "customfield_19005": null,
+        "timespent": null,
+        "customfield_17500": null,
+        "customfield_15200": null,
+        "aggregatetimespent": null,
+        "customfield_19008": null,
+        "customfield_14109": null,
+        "customfield_18706": null,
+        "customfield_18708": null,
+        "customfield_18709": null,
+        "customfield_22408": null,
+        "workratio": -1,
+        "customfield_22406": null,
+        "customfield_20900": null,
+        "customfield_22403": null,
+        "customfield_22402": null,
+        "customfield_22401": null,
+        "customfield_22400": null,
+        "created": "2024-12-11T10:55:16.000+0300",
+        "customfield_18702": null,
+        "customfield_18705": null,
+        "customfield_18701": null,
+        "customfield_16517": null,
+        "customfield_22516": null,
+        "customfield_22511": null,
+        "customfield_21300": null,
+        "customfield_23801": null,
+        "customfield_23802": null,
+        "customfield_23803": null,
+        "customfield_23804": null,
+        "customfield_23805": null,
+        "customfield_23806": null,
+        "customfield_19901": null,
+        "customfield_23807": null,
+        "customfield_23808": null,
+        "customfield_13003": null,
+        "customfield_23809": null,
+        "customfield_16516": null,
+        "customfield_13004": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/user?username=vladislav.lyubimov",
+          "name": "vladislav.lyubimov",
+          "key": "vladislav.lyubimov",
+          "emailAddress": "vladislav.lyubimov@metro-cc.ru",
+          "avatarUrls": {
+            "48x48": "https://jira.metro-cc.ru/secure/useravatar?avatarId=10122",
+            "24x24": "https://jira.metro-cc.ru/secure/useravatar?size=small&avatarId=10122",
+            "16x16": "https://jira.metro-cc.ru/secure/useravatar?size=xsmall&avatarId=10122",
+            "32x32": "https://jira.metro-cc.ru/secure/useravatar?size=medium&avatarId=10122"
+          },
+          "displayName": "Lyubimov, Vladislav",
+          "active": true,
+          "timeZone": "Europe/Moscow"
+        },
+        "security": {
+          "self": "https://jira.metro-cc.ru/rest/api/2/securitylevel/10204",
+          "id": "10204",
+          "description": "Доступно участникам заявки",
+          "name": "Default level"
+        },
+        "customfield_24100": null,
+        "customfield_20206": null,
+        "customfield_18801": null,
+        "customfield_11601": null
+      }
+    }
+  ]
