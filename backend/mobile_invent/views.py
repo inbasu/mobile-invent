@@ -10,21 +10,26 @@ from .services.blanks.worddocument import WordDocument
 USER = {
         "username": "ivan.fisenko",
         "roles": ["MCC_RU_INSIGHT_IT_ROLE"],
-        "store_role": ["1074"]
+        "store_role": ["1065"]
         }
 
 
 # Create your views here.
+class GetStoresListView(View):
+    def post(self, request):
+        return JsonResponse(requests.post('http://127.0.0.1:8000/iql', 
+                                          json={"scheme": 1, "iql": 'objectTypeId = 16 AND "УНАДРТЦ" IS NOT EMPTY AND "Jira issue location" IS NOT EMPTY'}).json(),
+                            safe=False)
+
+
 class GetDeviceListView(View):
     def post(self, request) -> JsonResponse:
-        user = USER
-        
-        stores = ' ,'.join(user["store_role"])
-        if stores:
+        store =  json.loads(request.body.decode("utf-8")).get('store', '')
+        if store:
             insight_data = requests.post('http://127.0.0.1:8000/iql/join', 
                             json={
                                 "scheme":1, 
-                                "iql": f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({stores})', 
+                                "iql": f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({store}) AND State != "To Discard"', 
                                 'joined_iql': 'objectTypeId=78', 
                                 'on':'Инв No и модель',
                                 })

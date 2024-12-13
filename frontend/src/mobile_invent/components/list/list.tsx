@@ -1,13 +1,13 @@
 import Grid from '@mui/material/Grid2';
-import { Item, Values } from '../datatypes';
-import { border } from "../page";
+import { Item } from '../../datatypes';
+import { border } from "../../page";
 import { useContext } from 'react';
-import { ActionContext, ItemContext, ResultContext } from '../context';
+import { ActionContext, ItemContext, ResultContext } from '../../context';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 
 const getValue = (item: Item, attrs: Array<string>) => {
-        return item.attrs.filter(attr => attrs.includes(attr.name))
+        return item ? item.attrs?.filter(attr => attrs.includes(attr.name)) : []
 }
 
 
@@ -23,7 +23,11 @@ const itemTable = (item: Item, setItem: Function, selected: Item | null, action:
                                 borderBottom: border, '&:hover': { background: '#7CB9FF' }, background: item === selected ? '#CCCCCC' :
                                         ((getValue(item, ['State'])[0]?.values[0]?.label === "Free" &&
                                                 getValue(item.joined[0], ['Кто принял'])[0]?.values.length != 1) ||
-                                                (!['Free', "Working", "ApprovedToBeSent"].includes(getValue(item, ['State'])[0]?.values[0]?.label))) ? '#FFCDD2' : ''
+                                                (!['Free', "Working", "ApprovedToBeSent"].includes(getValue(item, ['State'])[0]?.values[0]?.label)) ||
+                                                (getValue(item, ['State'])[0]?.values[0]?.label === "Working" &&
+                                                        getValue(item.joined[0], ['Кто принял'])[0]?.values.length === 1)
+
+                                        ) ? '#FFCDD2' : ''
 
                         }
                         }>

@@ -1,7 +1,9 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { Item } from "./datatypes";
 
-export const DataContext = createContext<Array<Item>>([]);
+export const DataContext = createContext<
+  [Array<Item>, Dispatch<SetStateAction<Array<Item>>>]
+>([[], () => {}]);
 
 export const ItemsContext = createContext<
   [Array<Item>, Dispatch<SetStateAction<Array<Item>>>]
@@ -18,3 +20,7 @@ export const ItemContext = createContext<
 export const ActionContext = createContext<
   [string, Dispatch<SetStateAction<string>>]
 >(["", () => {}]);
+
+export const StoresContext = createContext<
+  [Array<Item> | null, Dispatch<SetStateAction<Array<Item>>>]
+>([null, () => {}]);

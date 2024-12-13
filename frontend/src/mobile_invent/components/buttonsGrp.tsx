@@ -1,13 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { act, SetStateAction, useContext, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import axios from "axios";
 
 import Button from '@mui/material/Button';
-import { ActionContext, ItemContext } from "../context";
+import { ActionContext, ItemContext, StoresContext } from "../context";
 import { styled } from "@mui/material/styles";
-import { Typography } from "@mui/material";
+import { Autocomplete, TextField, Typography } from "@mui/material";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import SendIcon from '@mui/icons-material/Send';
+import { Item } from "../datatypes";
+import { Action, Dispatch } from "@reduxjs/toolkit";
 
 
 const actionMap = new Map([['takeback', "Сдать"], ["giveaway", "Выдать"], ["send", "Переслать"]])
@@ -23,17 +25,30 @@ const HiddenInput = styled('input')({
 })
 
 
+const AutocompleteField = (data: Array<Item> | null, selected: Item | null, setData: Function, label: string) => {
+        return (
+                <Autocomplete
+                        options={data ? data : []}
+                        getOptionLabel={(option) => option.label}
+                        value={selected}
+                        onChange={(_, value) => setData(value)}
+                        renderInput={(params) => <TextField {...params} label={label} size="small" fullWidth />}
+                />
+        )
+}
 
 
 
 export default function ButtonGroup() {
         const [action, setAction] = useContext(ActionContext);
         const [item, setItem] = useContext(ItemContext);
-
+        const [stores, setStores] = useContext(StoresContext);
         const [actionText, setActionText] = useState<string | undefined>();
         const [blank, setBlank] = useState<File | null>(null);
         const [validBlank, setValidBlank] = useState<boolean | null>(null)
 
+        const [store, setStore] = useState<Item | null>(null);
+        const [trackCode, setTrackCode] = useState<string | null>(null);
 
         const handleDownload = () => {
                 axios.post('http://127.0.0.1:8800/mobile/blank/', { action: action, item: item }, { responseType: "blob" })
@@ -67,6 +82,10 @@ export default function ButtonGroup() {
                 formData.append('action', action);
                 formData.append('item', JSON.stringify(item));
                 formData.append('blank', blank ? blank : '');
+
+                formData.append('track', JSON.stringify(trackCode));
+                formData.append('to_store', JSON.stringify(store));
+
                 axios.post('', FormData)
                         .then((response) => {
                                 if (response.data.error) {
@@ -79,29 +98,51 @@ export default function ButtonGroup() {
         }
 
 
+        useEffect(() => {
+                setBlank(null);
+                setValidBlank(false);
+                console.log(action)
+        }, [item, action])
+
         return (
                 <Grid container spacing={1}>
                         <Grid size={3}>
-                                <Button variant="text"
-                                        color={"secondary"}
-                                        onClick={handleDownload}
-                                >Скачать бланк
-                                        <FileDownloadIcon />
-                                </Button>
+                                {action !== "send" ?
+                                        <Button variant="text"
+                                                color={"secondary"}
+                                                onClick={handleDownload}
+                                        >Скачать бланк
+                                                <FileDownloadIcon />
+                                        </Button>
+                                        :
+                                        AutocompleteField(
+                                                stores,
+                                                store,
+                                                setStore,
+                                                "ТЦ"
+                                        )
+                                }
                         </Grid>
                         <Grid size={6}>
-                                <Button variant="outlined"
-                                        color={validBlank ? "success" : 'error'}
-                                        component="label"
-                                        fullWidth>
-                                        {blank ? blank.name : "Выберите файл"}
-                                        <HiddenInput type="file" onChange={(event) => handleUpload(event.target.files ? event.target.files[0] : null)} />
-                                </Button>
-                                {!validBlank && (
-                                        <Typography textAlign={"center"} color={"error"}>
-                                                Файл в формате <b>.pdf</b> и рамером менее 0.5мб
-                                        </Typography>
-                                )}
+                                {action !== "send" ?
+                                        <>
+                                                <Button variant="outlined"
+                                                        color={validBlank ? "success" : 'error'}
+                                                        component="label"
+                                                        fullWidth>
+                                                        {blank ? blank.name : "Выберите файл"}
+                                                        <HiddenInput type="file" onChange={(event) => handleUpload(event.target.files ? event.target.files[0] : null)} />
+                                                </Button>
+                                                {!validBlank && (
+                                                        <Typography textAlign={"center"} color={"error"}>
+                                                                Файл в формате <b>.pdf</b> и рамером менее 0.5мб
+                                                        </Typography>)}
+                                        </>
+                                        : <TextField size="small"
+                                                label="Трек код"
+                                                onChange={(event) => setTrackCode(event.target.value)}
+                                                fullWidth />
+                                }
                         </Grid>
 
 
@@ -110,7 +151,8 @@ export default function ButtonGroup() {
                                 {action &&
                                         <Button variant="contained"
                                                 onClick={handleAction}
-                                                disabled={true}
+                                                disabled={!validBlank}
+                                                fullWidth
                                         >{actionMap.get(action)}
                                                 <SendIcon />
                                         </Button>
