@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import { Item } from "../datatypes";
 import { useContext, useEffect, useState } from 'react';
-import { ActionContext, ItemsContext, ResultContext, ItemContext } from '../context';
+import { ActionContext, ItemsContext, ResultContext, ItemContext, LoadingContext } from '../context';
 
 
 const searchFilter = (
@@ -22,6 +22,7 @@ export default function SearchBar() {
         const [items, setItems] = useContext(ItemsContext);
         const [results, setResults] = useContext(ResultContext);
         const [item, setItem] = useContext(ItemContext);
+        const [loading, setLoading] = useContext(LoadingContext);
 
         const [label, setLabel] = useState<string>('');
         const [querry, setQuerry] = useState<string>('');
@@ -56,6 +57,6 @@ export default function SearchBar() {
                         value={querry}
                         label={label}
                         fullWidth
-                        disabled={!label} />
+                        disabled={loading || !label} />
         )
 }

@@ -62,8 +62,9 @@ export default function ActionSelect() {
                         { 'store': store })
                         .then((response) => {
                                 setData(response.data);
-                                setItems(response.data);
-                                setResults(response.data);
+                                const result = search(response.data, action)
+                                setItems(result);
+                                setResults(result);
                         }).finally(() => setLoading(false))
                         ;
 
@@ -79,6 +80,7 @@ export default function ActionSelect() {
                                                 id="action-select"
                                                 value={store}
                                                 label="ТЦ"
+                                                disabled={loading}
                                                 onChange={(event) => setStore(event.target.value)}>
                                                 <MenuItem value={"1014"}>1014</MenuItem>
                                                 <MenuItem value={"1037"}>1037</MenuItem>
@@ -97,6 +99,7 @@ export default function ActionSelect() {
                                                 id="action-select"
                                                 value={action}
                                                 label="Выберите действие"
+                                                disabled={loading}
                                                 onChange={(event) => setAction(event.target.value)}>
                                                 <MenuItem value={""}>Всё</MenuItem>
                                                 <MenuItem value={"giveaway"}>Выдать</MenuItem>
