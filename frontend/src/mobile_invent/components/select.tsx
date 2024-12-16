@@ -91,7 +91,12 @@ export default function ActionSelect() {
                                                                         <MenuItem value={s.label}>{s.label}</MenuItem>
                                                                 )
                                                         })
-                                                        : user.store_role.map(s => { return (<MenuItem value={s}>{s}</MenuItem>) })
+                                                        : user.store_role.map(s => {
+                                                                return (
+                                                                        <MenuItem value={s} selected>{s}</MenuItem>
+                                                                )
+                                                        })
+
                                                 }
 
                                         </Select>
