@@ -3,10 +3,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useContext, useEffect, useState } from 'react';
-import { ActionContext, DataContext, ItemsContext, ItemContext, LoadingContext, ResultContext } from '../context';
+import { ActionContext, DataContext, ItemsContext, ItemContext, LoadingContext, ResultContext, StoresContext } from '../context';
 import { Item } from '../datatypes';
 import Grid from '@mui/material/Grid2';
 import axios from "axios";
+import { UserContext } from '../../App';
 
 
 const search = (items: Array<Item>, action: string) => {
@@ -36,19 +37,21 @@ const search = (items: Array<Item>, action: string) => {
 
 
 export default function ActionSelect() {
+        const user = useContext(UserContext);
         const [items, setItems] = useContext(ItemsContext);
         const [results, setResults] = useContext(ResultContext);
         const [action, setAction] = useContext(ActionContext);
         const [data, setData] = useContext(DataContext);
         const [item, setItem] = useContext(ItemContext);
         const [loading, setLoading] = useContext(LoadingContext);
+        const [stores, setStores] = useContext(StoresContext);
 
         const [store, setStore] = useState<string | undefined>();
-
         useEffect(() => {
                 const result = search(data, action)
                 setItems(result);
                 setResults(result);
+                console.log(stores)
         }, [action])
 
 
@@ -82,11 +85,15 @@ export default function ActionSelect() {
                                                 label="ТЦ"
                                                 disabled={loading}
                                                 onChange={(event) => setStore(event.target.value)}>
-                                                <MenuItem value={"1014"}>1014</MenuItem>
-                                                <MenuItem value={"1037"}>1037</MenuItem>
-                                                <MenuItem value={"1054"}>1054</MenuItem>
-                                                <MenuItem value={"1065"}>1065</MenuItem>
-                                                <MenuItem value={"1082"}>1082</MenuItem>
+                                                {user.roles.includes("MCC_RU_INSIGHT_IT_ROLE") && stores ?
+                                                        stores.map(s => {
+                                                                return (
+                                                                        <MenuItem value={s.label}>{s.label}</MenuItem>
+                                                                )
+                                                        })
+                                                        : user.store_role.map(s => { return (<MenuItem value={s}>{s}</MenuItem>) })
+                                                }
+
                                         </Select>
                                 </FormControl >
                         </Grid>

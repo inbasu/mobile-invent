@@ -10,7 +10,7 @@ import { Box } from "@mui/material";
 import SearchBar from "./components/search";
 import ItemCard from "./components/card";
 import { DataContext, ItemContext, ItemsContext, ResultContext, ActionContext, StoresContext, LoadingContext } from "./context";
-
+import { UserContext } from '../App';
 const height: string = "86vh"
 const leftCol: number = 3.5;
 
@@ -27,6 +27,7 @@ export default function Mobile() {
         const [results, setResults] = useState<Array<Item>>([]);
         const [item, setItem] = useState<Item | null>(null);
         const [stores, setStores] = useState<Array<Item>>([]);
+
 
 
         // динамичное изменение размера
