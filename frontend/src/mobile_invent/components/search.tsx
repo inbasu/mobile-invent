@@ -51,6 +51,7 @@ export default function SearchBar() {
                 }
                 setItem(null);
         }, [querry])
+
         return (
                 <TextField id="search-bar"
                         onChange={event => setQuerry(event.target.value)}

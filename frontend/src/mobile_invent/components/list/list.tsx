@@ -31,9 +31,10 @@ const itemTable = (item: Item, setItem: Function, selected: Item | null, action:
 
                         }
                         }>
-                        {action !== 'takeback' ?
+                        {action === 'giveaway' ?
                                 <Grid size={12}>
-                                        <b>{item.label}</b>
+                                        <b>{item.itreq?.Key}</b>
+
 
                                 </Grid>
                                 :
