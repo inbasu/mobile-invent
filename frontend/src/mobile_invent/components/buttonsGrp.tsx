@@ -75,7 +75,7 @@ export default function ButtonGroup() {
         };
 
         const handleAction = () => {
-                if (!validBlank) {
+                if (validBlank) {
                         return
                 }
                 const formData = new FormData();
@@ -85,8 +85,8 @@ export default function ButtonGroup() {
 
                 formData.append('track', JSON.stringify(trackCode));
                 formData.append('to_store', JSON.stringify(store));
-
-                axios.post('', FormData)
+                console.log(...formData.entries())
+                axios.post('http://127.0.0.1:8800/mobile/action/', formData)
                         .then((response) => {
                                 if (response.data.error) {
                                         console.log(123)
@@ -151,7 +151,6 @@ export default function ButtonGroup() {
                                 {action &&
                                         <Button variant="contained"
                                                 onClick={handleAction}
-                                                disabled={!validBlank}
                                                 fullWidth
                                         >{actionMap.get(action)}
                                                 <SendIcon />

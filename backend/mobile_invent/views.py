@@ -1,14 +1,18 @@
 import json
 import re
+from uuid import uuid4
 
 import requests
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 
+from mobile_invent.services.action_handler import ActionHandler
+
 from .services.blanks.worddocument import WordDocument
 
 USER = {
         "username": "ivan.fisenko",
+        "email": "ivan.fisenko@metro-cc.ru",
         "roles": ["MCC_RU_INSIGHT_IT_ROLE"],
         "store_role": ["1065"]
         }
@@ -110,7 +114,33 @@ class DownloadBlank(View):
             return get_field_by_name(item['attrs'], "Type").get("values", [])[0].get("label", '').lower()
 
 
+class HandleActionView(View):
+    http_method_names = ['post']
 
+    def post(self, request):
+        data = self.form_data(request)
+        operation_id = str(uuid4())[-12:]
+        # mobile_logger.info(f'{operation_id}: {data.user['email']} {data.action=}')
+        res, err = (1, 2)
+        match data["action"]:
+            case "takeback":
+                result = ActionHandler.takeback(operation_id,**data)
+            case "giveaway":
+                res, err = (1, 2)
+            case "send":
+                res, err = (1, 2)
+        return JsonResponse({"result": res, "error": err})
+
+
+
+    def form_data(self, request) -> dict:
+        action = request.POST.get('action', '')
+        item = json.loads(request.POST.get("item", '{}'))
+        file = request.FILES.get("file", '')
+        user = request.session.get('user', USER)
+        return {'action': action, "item": item, "file": file, "user": user}
+
+        
 
 def get_field_by_name(fields: list[dict], name: str):
     for field in fields:
