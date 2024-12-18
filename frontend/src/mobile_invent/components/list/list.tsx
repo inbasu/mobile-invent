@@ -4,10 +4,19 @@ import { border } from "../../page";
 import { useContext } from 'react';
 import { ActionContext, ItemContext, ResultContext } from '../../context';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { Typography } from '@mui/material';
 
 
 const getValue = (item: Item, attrs: Array<string>) => {
         return item ? item.attrs?.filter(attr => attrs.includes(attr.name)) : []
+}
+
+const validationCheck = (item: Item) => {
+        return ((getValue(item, ['State'])[0]?.values[0]?.label === "Free" &&
+                getValue(item.joined[0], ['Кто принял'])[0]?.values.length != 1) ||
+                (!['Free', "Working", "ApprovedToBeSent"].includes(getValue(item, ['State'])[0]?.values[0]?.label)) ||
+                (getValue(item, ['State'])[0]?.values[0]?.label === "Working" &&
+                        getValue(item.joined[0], ['Кто принял'])[0]?.values.length === 1))
 }
 
 
@@ -21,13 +30,7 @@ const itemTable = (item: Item, setItem: Function, selected: Item | null, action:
                         onClick={() => { setItem(item) }}
                         sx={{
                                 borderBottom: border, '&:hover': { background: '#7CB9FF' }, background: item === selected ? '#CCCCCC' :
-                                        ((getValue(item, ['State'])[0]?.values[0]?.label === "Free" &&
-                                                getValue(item.joined[0], ['Кто принял'])[0]?.values.length != 1) ||
-                                                (!['Free', "Working", "ApprovedToBeSent"].includes(getValue(item, ['State'])[0]?.values[0]?.label)) ||
-                                                (getValue(item, ['State'])[0]?.values[0]?.label === "Working" &&
-                                                        getValue(item.joined[0], ['Кто принял'])[0]?.values.length === 1)
-
-                                        ) ? '#FFCDD2' : ''
+                                        validationCheck(item) ? '#FFCDD2' : ''
 
                         }
                         }>
@@ -61,8 +64,16 @@ export default function ItemList() {
         const [action, setAction] = useContext(ActionContext);
 
         return (
-                <Grid container sx={{ maxHeight: "100%" }}>
-                        {results.map((i) => itemTable(i, setItem, item, action))}
-                </Grid>
+                <>
+                        <Typography textAlign={"center"}
+                                variant='subtitle2'
+                                sx={{ position: "sticky", top: 0, borderBottom: border, backgroundColor: "white" }}>
+                                Список оборудвания
+                        </Typography>
+
+                        <Grid container sx={{ maxHeight: "100%" }}>
+                                {results.map((i) => itemTable(i, setItem, item, action))}
+                        </Grid>
+                </>
         )
 }

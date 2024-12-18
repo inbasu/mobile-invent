@@ -6,11 +6,15 @@ import ItemList from "./components/list/list";
 import ActionSelect from "./components/select";
 import { Item } from "./datatypes";
 import axios from "axios";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import SearchBar from "./components/search";
 import ItemCard from "./components/card";
 import { DataContext, ItemContext, ItemsContext, ResultContext, ActionContext, StoresContext, LoadingContext } from "./context";
 import { UserContext } from '../App';
+import { Typography } from "@mui/material";
+
+import CloseIcon from '@mui/icons-material/Close';
+
 const height: string = "86vh"
 const leftCol: number = 3.5;
 
@@ -39,12 +43,11 @@ export default function Mobile() {
         window.addEventListener("resize", handleResize)
 
         useEffect(() => {
-                setLoading(true);
                 axios.post("http://127.0.0.1:8800/mobile/stores/")
                         .then(response => {
                                 setStores(response.data);
-                                setLoading(false);
                         })
+                        .finally(() => { setLoading(false); })
         }, [])
 
         return (
@@ -76,6 +79,23 @@ export default function Mobile() {
                                                                                                         }}>
                                                                                                         <ItemList /></Grid>
                                                                                                 <Grid size={12 - leftCol}>
+                                                                                                        <>
+                                                                                                                <Typography textAlign={"center"}
+                                                                                                                        variant='subtitle2'
+                                                                                                                        sx={{ position: "sticky", top: 0, borderBottom: border, backgroundColor: "white" }}>
+                                                                                                                        Карточка устройства
+                                                                                                                        <IconButton
+                                                                                                                                onClick={() => { setItem(null) }}
+                                                                                                                                size={"small"}
+                                                                                                                                disabled={item === null}
+                                                                                                                                sx={{ padding: 0, position: "absolute", right: 0 }}
+                                                                                                                        >
+                                                                                                                                <CloseIcon
+                                                                                                                                        color={item !== null ? "error" : ''} />
+                                                                                                                        </IconButton>
+                                                                                                                </Typography>
+
+                                                                                                        </>
                                                                                                         {item ? <ItemCard /> : ''}
                                                                                                 </Grid>
 

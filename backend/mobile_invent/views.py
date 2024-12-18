@@ -38,7 +38,7 @@ class GetDeviceListView(View):
             insight_data = requests.post('http://127.0.0.1:8000/iql/join', 
                             json={
                                 "scheme":1, 
-                                "iql": f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({store}) AND State != "To Discard"', 
+                                "iql": f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({store}) AND State IN ("Free", "ApprovedToBeSent", "Working", "Stock OK")', 
                                 'joined_iql': 'objectTypeId=78', 
                                 'on':'Инв No и модель',
                                 })
@@ -46,6 +46,7 @@ class GetDeviceListView(View):
                 jira = get_reqs()
                 return JsonResponse(self.zip_it(insight_data.json(), jira), safe=False)
         return JsonResponse([], safe=False)
+
 
     def zip_it(self, insight_data: list[dict], jira_data: list[dict]) -> list:
         for item in insight_data:
@@ -71,11 +72,11 @@ class GetDeviceListView(View):
             "attrs": [],
             "joined": [],
             "itreq": {
-                "Key": req.get('key', ''),
-                "For user": req.get('fields', {}).get('customfield_13004', ''),
-                "Issue Location" : req.get('fields', {}).get('customfield_10702', ''),
-                "inv.": req.get('fields', {}).get('customfield_13400', ''),
-                }
+                            "Key": req.get('key',''),
+                            "For user": req.get('fields', {}).get('customfield_13004', {}).get("displayName", ''),
+                            "Issue Location" : req.get('fields', {}).get('customfield_10702', {})[0].get("value", ''),
+                            "inv.": req.get('fields', {}).get('customfield_13400', ''),
+                            }
 
             } for req in jira_data]
     

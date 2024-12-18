@@ -29,6 +29,7 @@ export default function SearchBar() {
         const [fields, setFields] = useState<Array<string>>([]);
 
         useEffect(() => {
+                setQuerry('');
                 if (action === "takeback") {
                         setLabel("Введите номер оборудования или фамилию пользователя(на английском)")
                         setFields(['INV No', "Serial No", "User"])

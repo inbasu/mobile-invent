@@ -5,9 +5,11 @@ import { useContext } from "react";
 import { ActionContext, ItemContext } from "../context";
 import { Typography } from "@mui/material";
 
+import { border } from "../page"
 
-const hardwareFields = ["INV No", "Serial No", "Model", "State", "Location", "User", "Store"];
-const jiraFields = ['Key', 'Issue Location', 'For user']
+const hardwareFields = ["INV No", "Store", "Serial No", "Model", "State", "Location", "User", "Store"];
+const ereqFields = ["Store", "Кто выдал", 'Дата выдачи', "Пользователь", 'Кто принял', 'Дата сдачи'];
+const jiraFields = ['Key', 'Issue Location', 'For user', 'inv.'];
 
 
 const AttrRow = ({ attr }: { attr: Values }) => {
@@ -19,18 +21,6 @@ const AttrRow = ({ attr }: { attr: Values }) => {
 }
 
 
-const getFields = (action: string) => {
-        switch (action) {
-                case "takeback":
-                        return ["Кто выдал", 'Дата выдачи', "Пользователь"];
-                case "giveaway":
-                        return ['Кто принял', 'Дата сдачи'];
-                default:
-                        return ["Кто выдал", 'Дата выдачи', "Пользователь", 'Кто принял', 'Дата сдачи'];
-
-
-        }
-}
 
 export default function ItemCard() {
         const [item, setItem] = useContext(ItemContext);
@@ -39,20 +29,22 @@ export default function ItemCard() {
 
         return (
                 <Grid container p={2}>
-                        <Grid size={12}><h3>{item?.label}</h3></Grid>
-                        <Grid container size={12} pb={3}>
-                                <Grid size={12}><Typography variant='overline'>Оборудование</Typography></Grid>
-                                {item?.attrs && item.attrs.map(attr => {
-                                        if (hardwareFields.includes(attr.name) && attr.values) {
-                                                return (<AttrRow attr={attr} />)
-                                        }
-                                })}
-                        </Grid>
+                        {item?.id === 0 ? <Grid size={12}><h3>{item?.label}</h3></Grid> : <Grid size={12}><h3>{item?.itreq?.Key}</h3></Grid>}
+                        {item?.id !== 0 &&
+                                <Grid container size={12} pb={3}>
+                                        <Grid size={12}><Typography variant='overline'>Оборудование</Typography></Grid>
+                                        {item?.attrs && item.attrs.map(attr => {
+                                                if (hardwareFields.includes(attr.name) && attr.values) {
+                                                        return (<AttrRow attr={attr} />)
+                                                }
+                                        })}
+                                </Grid>
+                        }
                         {item?.joined.length !== 0 &&
                                 <Grid container size={12} pb={3}>
                                         <Grid size={12}><Typography variant='overline'>Карточка</Typography></Grid>
                                         {item?.joined && item.joined[0]?.attrs?.map(attr => {
-                                                if (getFields(action).includes(attr.name)) {
+                                                if (ereqFields.includes(attr.name)) {
                                                         return (<AttrRow attr={attr} />)
 
                                                 }

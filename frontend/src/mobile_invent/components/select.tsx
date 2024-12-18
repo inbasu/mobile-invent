@@ -51,7 +51,6 @@ export default function ActionSelect() {
                 const result = search(data, action)
                 setItems(result);
                 setResults(result);
-                console.log(stores)
         }, [action])
 
 
@@ -68,7 +67,7 @@ export default function ActionSelect() {
                                 const result = search(response.data, action)
                                 setItems(result);
                                 setResults(result);
-                        }).finally(() => setLoading(false))
+                        }).finally(() => { setLoading(false) })
                         ;
 
         }, [store])
@@ -105,15 +104,15 @@ export default function ActionSelect() {
 
                         <Grid size={6}>
                                 <FormControl fullWidth>
-                                        <InputLabel id="action-select-label">Выберите действие</InputLabel>
+                                        <InputLabel id="action-select-label">{store && 'Выберите действие'}</InputLabel>
                                         <Select
                                                 labelId="action-select-label"
                                                 id="action-select"
                                                 value={action}
                                                 label="Выберите действие"
-                                                disabled={loading}
+                                                disabled={loading || !store}
                                                 onChange={(event) => setAction(event.target.value)}>
-                                                <MenuItem value={""}>Всё</MenuItem>
+                                                <MenuItem value={""}>Посмотреть</MenuItem>
                                                 <MenuItem value={"giveaway"}>Выдать</MenuItem>
                                                 <MenuItem value={'takeback'}>Сдать</MenuItem>
                                                 <MenuItem value={'send'}>Переслать</MenuItem>
