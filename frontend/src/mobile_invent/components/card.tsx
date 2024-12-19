@@ -30,14 +30,22 @@ export default function ItemCard() {
         return (
                 <Grid container p={2}>
                         {item?.id === 0 ? <Grid size={12}><h3>{item?.label}</h3></Grid> : <Grid size={12}><h3>{item?.itreq?.Key}</h3></Grid>}
-                        {item?.id !== 0 &&
+                        <Grid size={12}><Typography variant='overline'>Оборудование</Typography></Grid>
+                        {item?.id !== 0 ?
                                 <Grid container size={12} pb={3}>
-                                        <Grid size={12}><Typography variant='overline'>Оборудование</Typography></Grid>
                                         {item?.attrs && item.attrs.map(attr => {
                                                 if (hardwareFields.includes(attr.name) && attr.values) {
                                                         return (<AttrRow attr={attr} />)
                                                 }
                                         })}
+                                </Grid>
+                                :
+                                <Grid>
+                                        <Typography variant="button" color={"error"}>
+                                                К сожаленю произошла ошибка, <br />
+                                                К запросу на выдачу некорректно проставленно оборудование.<br />
+                                                Пожалуйста обратиесть в поддкржку.
+                                        </Typography>
                                 </Grid>
                         }
                         {item?.joined.length !== 0 &&
@@ -65,7 +73,7 @@ export default function ItemCard() {
                         }
 
                         <Grid size={12}>
-                                {action && <ButtonGroup />}
+                                {action && item?.id !== 0 ? <ButtonGroup /> : ''}
                         </Grid>
                 </Grid>)
 }
