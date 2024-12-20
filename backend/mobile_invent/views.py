@@ -39,7 +39,7 @@ class GetDeviceListView(View):
             insight_data = requests.post('http://127.0.0.1:8000/iql/join', 
                             json={
                                 "scheme":1, 
-                                "iql": f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({store["label"]}) AND State IN ("Free", "ApprovedToBeSent", "Working", "Stock OK")', 
+                                "iql": f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({store["label"]}) AND State IN ("Free", "ApprovedToBeSent", "Working", "Stock OK", "Reserved")', 
                                 'joined_iql': 'objectTypeId=78', 
                                 'on':'Инв No и модель',
                                 })
