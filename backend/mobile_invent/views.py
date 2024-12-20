@@ -33,18 +33,20 @@ class GetStoresListView(View):
 
 class GetDeviceListView(View):
     def post(self, request) -> JsonResponse:
-        store =  json.loads(request.body.decode("utf-8")).get('store', '')
-        if store:
+        store =  json.loads(json.loads(request.body.decode("utf-8")).get('store', ''))
+        jira_issue_location = get_field_by_name(store["attrs"], "Jira issue location").get("values", [{}])[0].get("label", '')
+        if store and jira_issue_location:
             insight_data = requests.post('http://127.0.0.1:8000/iql/join', 
                             json={
                                 "scheme":1, 
-                                "iql": f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({store}) AND State IN ("Free", "ApprovedToBeSent", "Working", "Stock OK")', 
+                                "iql": f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({store["label"]}) AND State IN ("Free", "ApprovedToBeSent", "Working", "Stock OK")', 
                                 'joined_iql': 'objectTypeId=78', 
                                 'on':'Инв No и модель',
                                 })
-            if insight_data.status_code == 200:
-                jira = get_reqs()
-                return JsonResponse(self.zip_it(insight_data.json(), jira), safe=False)
+            jira_data = requests.post("http://127.0.0.1:8000/jql",
+                                      json={"jql": f'project = "IT Requests" AND type = "HW/SW Request" AND Hardware in (Laptop, iPad, "Mobile Phone") AND inv. is not EMPTY AND "For user" is not EMPTY AND labels != hwr_done AND status in ("SSS To Do", "Wait Delivery" ) AND "Issue Location" = {jira_issue_location}'})
+            if insight_data.status_code == 200 and jira_data.status_code == 200:
+                return JsonResponse(self.zip_it(insight_data.json(), jira_data.json()), safe=False)
         return JsonResponse([], safe=False)
 
 

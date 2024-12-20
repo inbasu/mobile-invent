@@ -46,7 +46,7 @@ export default function ActionSelect() {
         const [loading, setLoading] = useContext(LoadingContext);
         const [stores, setStores] = useContext(StoresContext);
 
-        const [store, setStore] = useState<string | undefined>();
+        const [store, setStore] = useState<Item | undefined>();
         useEffect(() => {
                 const result = search(data, action)
                 setItems(result);
@@ -61,7 +61,7 @@ export default function ActionSelect() {
                 setItem(null);
                 setLoading(true);
                 axios.post(`http://127.0.0.1:8800/mobile/items/`,
-                        { 'store': store })
+                        { 'store': JSON.stringify(store) })
                         .then((response) => {
                                 setData(response.data);
                                 const result = search(response.data, action)
@@ -87,7 +87,7 @@ export default function ActionSelect() {
                                                 {user.roles.includes("MCC_RU_INSIGHT_IT_ROLE") && stores ?
                                                         stores.map(s => {
                                                                 return (
-                                                                        <MenuItem value={s.label}>{s.label}</MenuItem>
+                                                                        <MenuItem value={s}>{s.label}</MenuItem>
                                                                 )
                                                         })
                                                         : user.store_role.map(s => {
