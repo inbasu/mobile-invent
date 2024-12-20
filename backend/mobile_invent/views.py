@@ -6,7 +6,7 @@ import requests
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 
-from mobile_invent.services.action_handler import ActionHandler
+from mobile_invent.services.takeback import TakebackHandler
 
 from .services.blanks.worddocument import WordDocument
 
@@ -124,15 +124,14 @@ class HandleActionView(View):
         data = self.form_data(request)
         operation_id = str(uuid4())[-12:]
         # mobile_logger.info(f'{operation_id}: {data.user['email']} {data.action=}')
-        res, err = (1, 2)
         match data["action"]:
             case "takeback":
-                result = ActionHandler.takeback(operation_id,**data)
+                result = TakebackHandler.handle(operation_id,**data)
             case "giveaway":
-                res, err = (1, 2)
+                result = {1, 2}
             case "send":
-                res, err = (1, 2)
-        return JsonResponse({"result": res, "error": err})
+                result = {1, 2}
+        return JsonResponse(result)
 
 
 
