@@ -3,7 +3,6 @@ import { Item } from '../../datatypes';
 import { border } from "../../page";
 import { useContext } from 'react';
 import { ActionContext, ItemContext, ResultContext } from '../../context';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Typography } from '@mui/material';
 
 
@@ -14,7 +13,7 @@ const getValue = (item: Item, attrs: Array<string>) => {
 const validationCheck = (item: Item) => {
         return ((getValue(item, ['State'])[0]?.values[0]?.label === "Free" &&
                 getValue(item.joined[0], ['Кто принял'])[0]?.values.length != 1) ||
-                (!['Free', "Working", "ApprovedToBeSent"].includes(getValue(item, ['State'])[0]?.values[0]?.label)) ||
+                (!['Free', "Working", "ApprovedToBeSent", "Reserved"].includes(getValue(item, ['State'])[0]?.values[0]?.label)) ||
                 (getValue(item, ['State'])[0]?.values[0]?.label === "Working" &&
                         getValue(item.joined[0], ['Кто принял'])[0]?.values.length === 1))
 }

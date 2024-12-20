@@ -46,7 +46,7 @@ export default function ActionSelect() {
         const [loading, setLoading] = useContext(LoadingContext);
         const [stores, setStores] = useContext(StoresContext);
 
-        const [store, setStore] = useState<Item | undefined>();
+        const [store, setStore] = useState<Item | undefined>(undefined);
         useEffect(() => {
                 const result = search(data, action)
                 setItems(result);
@@ -60,15 +60,17 @@ export default function ActionSelect() {
                 setResults([]);
                 setItem(null);
                 setLoading(true);
-                axios.post(`http://127.0.0.1:8800/mobile/items/`,
-                        { 'store': JSON.stringify(store) })
-                        .then((response) => {
-                                setData(response.data);
-                                const result = search(response.data, action)
-                                setItems(result);
-                                setResults(result);
-                        }).finally(() => { setLoading(false) })
-                        ;
+                if (store !== undefined) {
+                        axios.post(`http://127.0.0.1:8800/mobile/items/`,
+                                { 'store': JSON.stringify(store) })
+                                .then((response) => {
+                                        setData(response.data);
+                                        const result = search(response.data, action)
+                                        setItems(result);
+                                        setResults(result);
+                                }).finally(() => { setLoading(false) })
+                                ;
+                }
 
         }, [store])
 
