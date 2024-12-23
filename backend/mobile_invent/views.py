@@ -1,14 +1,19 @@
 import json
 import re
+from logging import getLogger
 from uuid import uuid4
 
 import requests
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 
+from mobile_invent.services.handler import Handler
 from mobile_invent.services.takeback import TakebackHandler
 
 from .services.blanks.worddocument import WordDocument
+
+logger = getLogger("mobile")
+
 
 USER = {
         "username": "ivan.fisenko",
@@ -34,7 +39,7 @@ class GetStoresListView(View):
 class GetDeviceListView(View):
     def post(self, request) -> JsonResponse:
         store =  json.loads(json.loads(request.body.decode("utf-8")).get('store', ''))
-        jira_issue_location = get_field_by_name(store["attrs"], "Jira issue location").get("values", [{}])[0].get("label", '')
+        jira_issue_location = Handler.get_field_by_name(store["attrs"], "Jira issue location").get("values", [{}])[0].get("label", '')
         if store and jira_issue_location:
             insight_data = requests.post('http://127.0.0.1:8000/iql/join', 
                             json={
@@ -45,8 +50,8 @@ class GetDeviceListView(View):
                                 })
             jira_data = requests.post("http://127.0.0.1:8000/jql",
                                       json={"jql": f'project = "IT Requests" AND type = "HW/SW Request" AND Hardware in (Laptop, iPad, "Mobile Phone") AND inv. is not EMPTY AND "For user" is not EMPTY AND labels != hwr_done AND status in ("SSS To Do", "Wait Delivery" ) AND "Issue Location" = {jira_issue_location}'})
-            if insight_data.status_code == 200 and jira_data.status_code == 200:
-                return JsonResponse(self.zip_it(insight_data.json(), jira_data.json()), safe=False)
+            if insight_data.status_code == 200:
+                return JsonResponse(self.zip_it(insight_data.json(), []), safe=False)
         return JsonResponse([], safe=False)
 
 
@@ -99,22 +104,22 @@ class DownloadBlank(View):
             item_type = self.check_type(hardware)
             path = f'./mobile_invent/services/blanks/source/{action}/{item_type}.docx'
             data = {
-                    "$DEVICE":  get_field_by_name(hardware['attrs'], "Model").get("values", [])[0].get('label', ''),
-                    "$NUMBER": f"{get_field_by_name(hardware['attrs'], 'Serial No').get("values", [])[0].get('label', '')} / {get_field_by_name(hardware['attrs'], 'INV No').get("values", [])[0].get('label', '')}",
+                    "$DEVICE":  Handler.get_field_by_name(hardware['attrs'], "Model").get("values", [])[0].get('label', ''),
+                    "$NUMBER": f"{Handler.get_field_by_name(hardware['attrs'], 'Serial No').get("values", [])[0].get('label', '')} / {Handler.get_field_by_name(hardware['attrs'], 'INV No').get("values", [])[0].get('label', '')}",
                     }
             WordDocument(path).change_table(data=data).save(response)
-            WordDocument(path).change_table(data=data).save("./word.docx")
             response["Content-Dispostal"] = 'attachment; filename=document.docx'
         return response
 
+
     def check_type(self, item) -> str:
-        item_type = get_field_by_name(item['attrs'], "Model").get("values", [])[0].get('label','').lower()
+        item_type = Handler.get_field_by_name(item['attrs'], "Model").get("values", [])[0].get('label','').lower()
         if "nokia" in item_type:
             return "nokia"
         elif "ipad" in item_type:
             return "ipad"
         else:
-            return get_field_by_name(item['attrs'], "Type").get("values", [])[0].get("label", '').lower()
+            return Handler.get_field_by_name(item['attrs'], "Type").get("values", [])[0].get("label", '').lower()
 
 
 class HandleActionView(View):
@@ -123,10 +128,9 @@ class HandleActionView(View):
     def post(self, request):
         data = self.form_data(request)
         operation_id = str(uuid4())[-12:]
-        # mobile_logger.info(f'{operation_id}: {data.user['email']} {data.action=}')
         match data["action"]:
             case "takeback":
-                result = TakebackHandler.handle(operation_id,**data)
+                result = TakebackHandler.handle(operation_id=operation_id, **data)
             case "giveaway":
                 result = {1, 2}
             case "send":
@@ -144,8 +148,4 @@ class HandleActionView(View):
 
         
 
-def get_field_by_name(fields: list[dict], name: str):
-    for field in fields:
-        if field["name"] == name:
-            return field
-    return {}
+

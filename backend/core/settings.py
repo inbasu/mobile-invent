@@ -114,3 +114,29 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+
+
+LOGGING = {    "version": 1,
+    "disable_existing_loggers": False,    
+    "formatters": {
+        "simple": {            
+                   "format": "[{asctime}][{levelname}] >> {message}",
+                    "style": "{",        },
+                },    
+        "handlers": {
+            "mobile": {            
+                     "level": "DEBUG",
+                     "class": "logging.FileHandler",            
+                     "filename": "mobile_invent/logs.log",
+                     "formatter": "simple",            
+                     "encoding": "utf8",
+                    }, 
+            },
+    "loggers": { 
+                "mobile": {
+                    "handlers": ["mobile"],            
+                    "level": "DEBUG",
+                    "propagate": True,        
+                    },
+    }
+}
