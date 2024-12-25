@@ -10,7 +10,6 @@ import { Box, IconButton } from "@mui/material";
 import SearchBar from "./components/search";
 import ItemCard from "./components/card";
 import { DataContext, ItemContext, ItemsContext, ResultContext, ActionContext, StoresContext, LoadingContext, StoreContext } from "./context";
-import { UserContext } from '../App';
 import { Typography } from "@mui/material";
 
 import CloseIcon from '@mui/icons-material/Close';

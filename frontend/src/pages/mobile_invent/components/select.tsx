@@ -2,12 +2,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { ActionContext, DataContext, ItemsContext, ItemContext, LoadingContext, ResultContext, StoresContext, StoreContext } from '../context';
 import { Item } from '../datatypes';
 import Grid from '@mui/material/Grid2';
 import axios from "axios";
-import { UserContext } from '../../App';
+import { UserContext } from '../../../App';
 
 
 const search = (items: Array<Item>, action: string) => {
