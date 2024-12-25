@@ -8,6 +8,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views import View
 
 from mobile_invent.services.handler import Handler
+from mobile_invent.services.send import SendHandler
+from mobile_invent.services.takeback import TakebackHandler
 
 from .services.blanks.worddocument import WordDocument
 
@@ -30,7 +32,7 @@ def get_reqs():
 # Create your views here.
 class GetStoresListView(View):
     def post(self, request):
-        return JsonResponse(requests.post('http://127.0.0.1:8000/iql', 
+        return JsonResponse(requests.post('http://127.0.0.1:8000/api/insight/iql', 
                                           json={"scheme": 1, "iql": 'objectTypeId = 16 AND "УНАДРТЦ" IS NOT EMPTY AND "Jira issue location" IS NOT EMPTY'}).json(),
                             safe=False)
 
@@ -40,7 +42,7 @@ class GetDeviceListView(View):
         store =  json.loads(json.loads(request.body.decode("utf-8")).get('store', ''))
         jira_issue_location = Handler.get_field_by_name(store["attrs"], "Jira issue location").get("values", [{}])[0].get("label", '')
         if store and jira_issue_location:
-            insight_data = requests.post('http://127.0.0.1:8000/iql/join', 
+            insight_data = requests.post('http://127.0.0.1:8000/api/insight/iql/join', 
                             json={
                                 "scheme":1, 
                                 "iql": f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({store["label"]}) AND State IN ("Free", "ApprovedToBeSent", "Working", "Stock OK", "Reserved")', 
@@ -129,13 +131,18 @@ class HandleActionView(View):
         operation_id = str(uuid4())[-12:]
         match data["action"]:
             case "takeback":
-                # result = TakebackHandler.handle(operation_id=operation_id, **data)
-                pass
+                handler = TakebackHandler
             case "giveaway":
-                result = {1, 2}
+                handler = ''
             case "send":
-                result = {1, 2}
-        return JsonResponse(result)
+                handler = SendHandler
+        handler = handler(operation_id=operation_id,
+                          item=data['item'],
+                          user=data['user'],
+                          store=data['store'],
+                          file=data['file'],
+                          )
+        return JsonResponse(handler.handle())
 
 
 

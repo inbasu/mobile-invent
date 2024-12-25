@@ -7,15 +7,22 @@ from typing import Any
 import requests
 
 
-class EreqChangeError(Exception):
+class InsightError(Exception):
     pass
 
-class ITREQError(Exception):
+class JiraError(Exception):
     pass
 
 class Handler(ABC):
     logger = getLogger("mobile")
-    user: dict
+    action: str
+
+    def __init__(self, operation_id, item, user, store) -> None:
+        self.operation_id = operation_id
+        self.item = item
+        self.user = user
+        self.hw_user_id = self.get_user()
+        self.store = store
 
     @staticmethod
     def get_field_by_name(fields: list[dict], name: str):
@@ -28,7 +35,6 @@ class Handler(ABC):
     def get_label_of_field(field: dict) -> Any:
         return field.get("values", [{}])[0].get("label")
 
-
     def get_user(self) -> int:
         resp = requests.post('http://127.0.0.1:8000/iql', json={"scheme": 2, "iql":f"objectTypeId = 57 AND Email = {self.user.get('email')}"}).json()
         try:
@@ -36,20 +42,20 @@ class Handler(ABC):
         except IndexError:
             return 0
     
-    def obj_link(self, id: int) -> str:
-        return f'https://jirainvent.metro-cc.ru/secure/insight/assets/IN-{id}'
+    def obj_link(self, obj) -> str:
+        return f'https://jirainvent.metro-cc.ru/secure/insight/assets/IN-{obj.get('id')}'
 
 
 
     @staticmethod
     def hw_user_update(func):
-        def wrapper(cls, operation_id: str, user, item, action, *args, **kwargs):
-            if user_id := cls.get_user(user['email']):
-                cls.logger.info(f'{operation_id}: {user['email']} {action.upper()} {item["label"]}')
-                update = func(cls, item=item, hws_user_id=user_id, operation_id=operation_id ,*args, **kwargs)
+        def wrapper(self, *args, **kwargs):
+            if user_id := self.hw_user_id:
+                Handler.logger.info(f'{self.operation_id}: {self.action} {self.item["label"]} {self.user['email']}')
+                update = func(self, *args, **kwargs)
                 if not update.get("error", False):
                     time.sleep(3)
-                    requests.post('http://127.0.0.1:8000/update', json={"scheme": 1, "object_type_id": 8, "object_id": item["id"],
+                    requests.post('http://127.0.0.1:8000/update', json={"scheme": 1, "object_type_id": 8, "object_id": self.item["id"],
                                                                         "attrs":{2427: [user_id]}})  
                 return update
             return {}
@@ -78,3 +84,20 @@ class Handler(ABC):
 
     def insight_add_attachment(self, id, file):
         pass
+
+
+    def jira_create_req(self, description: str):
+        jreq = requests.post('', json={
+            "summary": f"{self.action} мобильного оборудования ТЦ",
+            "description": description,
+            "Metro Team": 'Support Remote',
+            "Issue Location": self.get_field_by_name(self.store["attrs"], "Jira Issue Location").get("values", [{}])[0].get('label', ''),
+            "component": self.get_component(),
+            })
+        if jreq.status_code == 200:
+            return jreq.json()
+        raise ITREQError('Проблема при создании заявки в Jira')
+
+
+
+#  ,

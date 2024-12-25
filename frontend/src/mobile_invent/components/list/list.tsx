@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid2';
 import { Item } from '../../datatypes';
 import { border } from "../../page";
-import { useContext } from 'react';
+import { act, useContext } from 'react';
 import { ActionContext, ItemContext, ResultContext } from '../../context';
 import { Typography } from '@mui/material';
 
@@ -10,12 +10,13 @@ const getValue = (item: Item, attrs: Array<string>) => {
         return item ? item.attrs?.filter(attr => attrs.includes(attr.name)) : []
 }
 
-const validationCheck = (item: Item) => {
+const validationCheck = (item: Item, action: string) => {
         return ((getValue(item, ['State'])[0]?.values[0]?.label === "Free" &&
                 getValue(item.joined[0], ['Кто принял'])[0]?.values.length != 1) ||
                 (!['Free', "Working", "ApprovedToBeSent", "Reserved"].includes(getValue(item, ['State'])[0]?.values[0]?.label)) ||
                 (getValue(item, ['State'])[0]?.values[0]?.label === "Working" &&
-                        getValue(item.joined[0], ['Кто принял'])[0]?.values.length === 1))
+                        getValue(item.joined[0], ['Кто принял'])[0]?.values.length === 1) ||
+                ((action === "takeback") && item.joined.length === 0))
 }
 
 
@@ -29,7 +30,7 @@ const itemTable = (item: Item, setItem: Function, selected: Item | null, action:
                         onClick={() => { setItem(item) }}
                         sx={{
                                 borderBottom: border, '&:hover': { background: '#7CB9FF' }, background: item === selected ? '#CCCCCC' :
-                                        validationCheck(item) ? '#FFCDD2' : ''
+                                        validationCheck(item, action) ? '#FFCDD2' : ''
 
                         }
                         }>
