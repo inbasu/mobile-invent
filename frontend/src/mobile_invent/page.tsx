@@ -9,7 +9,7 @@ import axios from "axios";
 import { Box, IconButton } from "@mui/material";
 import SearchBar from "./components/search";
 import ItemCard from "./components/card";
-import { DataContext, ItemContext, ItemsContext, ResultContext, ActionContext, StoresContext, LoadingContext } from "./context";
+import { DataContext, ItemContext, ItemsContext, ResultContext, ActionContext, StoresContext, LoadingContext, StoreContext } from "./context";
 import { UserContext } from '../App';
 import { Typography } from "@mui/material";
 
@@ -31,7 +31,7 @@ export default function Mobile() {
         const [results, setResults] = useState<Array<Item>>([]);
         const [item, setItem] = useState<Item | null>(null);
         const [stores, setStores] = useState<Array<Item>>([]);
-
+        const [store, setStore] = useState<Item | null>(null);
 
 
         // динамичное изменение размера
@@ -58,50 +58,53 @@ export default function Mobile() {
                                                 <ResultContext.Provider value={[results, setResults]} >
                                                         <ItemContext.Provider value={[item, setItem]}>
                                                                 <ItemsContext.Provider value={[items, setItems]}>
-                                                                        <ActionContext.Provider value={[action, setAction]}>
-                                                                                <LoadingContext.Provider value={[loading, setLoading]}>
-                                                                                        <Grid container id="searchRow" sx={{ borderBottom: border }} size={12}>
-                                                                                                <Grid size={leftCol} p={1}
-                                                                                                        sx={{ borderRight: border }} >
-                                                                                                        <ActionSelect />
-                                                                                                </Grid>
-                                                                                                <Grid size={12 - leftCol} p={1}>
-                                                                                                        <SearchBar />
-                                                                                                </Grid>
-                                                                                        </Grid>
-                                                                                        <Grid container size={12}>
-                                                                                                <Grid size={leftCol}
-                                                                                                        sx={{
-                                                                                                                height: `calc(${height} - ${searchHeight})`,
-                                                                                                                borderRight: border,
-                                                                                                                overflowY: "auto",
-                                                                                                                scrollbarWidth: "none"
-                                                                                                        }}>
-                                                                                                        <ItemList /></Grid>
-                                                                                                <Grid size={12 - leftCol}>
-                                                                                                        <>
-                                                                                                                <Typography textAlign={"center"}
-                                                                                                                        variant='subtitle2'
-                                                                                                                        sx={{ position: "sticky", top: 0, borderBottom: border, backgroundColor: "white" }}>
-                                                                                                                        Карточка устройства
-                                                                                                                        <IconButton
-                                                                                                                                onClick={() => { setItem(null) }}
-                                                                                                                                size={"small"}
-                                                                                                                                disabled={item === null}
-                                                                                                                                sx={{ padding: 0, position: "absolute", right: 0 }}
-                                                                                                                        >
-                                                                                                                                <CloseIcon
-                                                                                                                                        color={item !== null ? "error" : ''} />
-                                                                                                                        </IconButton>
-                                                                                                                </Typography>
+                                                                        <StoreContext.Provider value={[store, setStore]}>
+                                                                                <ActionContext.Provider value={[action, setAction]}>
+                                                                                        <LoadingContext.Provider value={[loading, setLoading]}>
 
-                                                                                                        </>
-                                                                                                        {item ? <ItemCard /> : ''}
+                                                                                                <Grid container id="searchRow" sx={{ borderBottom: border }} size={12}>
+                                                                                                        <Grid size={leftCol} p={1}
+                                                                                                                sx={{ borderRight: border }} >
+                                                                                                                <ActionSelect />
+                                                                                                        </Grid>
+                                                                                                        <Grid size={12 - leftCol} p={1}>
+                                                                                                                <SearchBar />
+                                                                                                        </Grid>
                                                                                                 </Grid>
+                                                                                                <Grid container size={12}>
+                                                                                                        <Grid size={leftCol}
+                                                                                                                sx={{
+                                                                                                                        height: `calc(${height} - ${searchHeight})`,
+                                                                                                                        borderRight: border,
+                                                                                                                        overflowY: "auto",
+                                                                                                                        scrollbarWidth: "none"
+                                                                                                                }}>
+                                                                                                                <ItemList /></Grid>
+                                                                                                        <Grid size={12 - leftCol}>
+                                                                                                                <>
+                                                                                                                        <Typography textAlign={"center"}
+                                                                                                                                variant='subtitle2'
+                                                                                                                                sx={{ position: "sticky", top: 0, borderBottom: border, backgroundColor: "white" }}>
+                                                                                                                                Карточка устройства
+                                                                                                                                <IconButton
+                                                                                                                                        onClick={() => { setItem(null) }}
+                                                                                                                                        size={"small"}
+                                                                                                                                        disabled={item === null}
+                                                                                                                                        sx={{ padding: 0, position: "absolute", right: 0 }}
+                                                                                                                                >
+                                                                                                                                        <CloseIcon
+                                                                                                                                                color={item !== null ? "error" : ''} />
+                                                                                                                                </IconButton>
+                                                                                                                        </Typography>
 
-                                                                                        </Grid>
-                                                                                </LoadingContext.Provider>
-                                                                        </ActionContext.Provider>
+                                                                                                                </>
+                                                                                                                {item ? <ItemCard /> : ''}
+                                                                                                        </Grid>
+
+                                                                                                </Grid>
+                                                                                        </LoadingContext.Provider>
+                                                                                </ActionContext.Provider>
+                                                                        </StoreContext.Provider>
                                                                 </ItemsContext.Provider>
                                                         </ItemContext.Provider>
                                                 </ResultContext.Provider>

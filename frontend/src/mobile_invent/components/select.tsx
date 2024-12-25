@@ -3,7 +3,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useContext, useEffect, useState } from 'react';
-import { ActionContext, DataContext, ItemsContext, ItemContext, LoadingContext, ResultContext, StoresContext } from '../context';
+import { ActionContext, DataContext, ItemsContext, ItemContext, LoadingContext, ResultContext, StoresContext, StoreContext } from '../context';
 import { Item } from '../datatypes';
 import Grid from '@mui/material/Grid2';
 import axios from "axios";
@@ -45,8 +45,8 @@ export default function ActionSelect() {
         const [item, setItem] = useContext(ItemContext);
         const [loading, setLoading] = useContext(LoadingContext);
         const [stores, setStores] = useContext(StoresContext);
+        const [store, setStore] = useContext(StoreContext);
 
-        const [store, setStore] = useState<Item | undefined>(undefined);
         useEffect(() => {
                 const result = search(data, action)
                 setItems(result);

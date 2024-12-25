@@ -28,3 +28,7 @@ export const LoadingContext = createContext<
 export const StoresContext = createContext<
   [Array<Item> | null, Dispatch<SetStateAction<Array<Item>>>]
 >([null, () => {}]);
+
+export const StoreContext = createContext<
+  [Item | null, Dispatch<SetStateAction<Item | null>>]
+>([null, () => {}]);

@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid2";
 import axios from "axios";
 
 import Button from '@mui/material/Button';
-import { ActionContext, ItemContext, StoresContext } from "../context";
+import { ActionContext, ItemContext, StoreContext, StoresContext } from "../context";
 import { styled } from "@mui/material/styles";
 import { Autocomplete, TextField, Typography } from "@mui/material";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -43,11 +43,12 @@ export default function ButtonGroup() {
         const [action, setAction] = useContext(ActionContext);
         const [item, setItem] = useContext(ItemContext);
         const [stores, setStores] = useContext(StoresContext);
+        const [store, setStore] = useContext(StoreContext);
         const [actionText, setActionText] = useState<string | undefined>();
         const [blank, setBlank] = useState<File | null>(null);
         const [validBlank, setValidBlank] = useState<boolean | null>(null)
 
-        const [store, setStore] = useState<Item | null>(null);
+        const [to_store, setToStore] = useState<Item | null>(null);
         const [trackCode, setTrackCode] = useState<string | null>(null);
 
         const handleDownload = () => {
@@ -68,6 +69,7 @@ export default function ButtonGroup() {
                 if (file && blankMaxSize > (file?.size / 1024) && blankFormats.some(suff => file.name.endsWith(suff))) {
                         setBlank(file);
                         setValidBlank(true);
+                        console.log(123)
                 } else {
                         setBlank(null);
                         setValidBlank(false);
@@ -75,16 +77,17 @@ export default function ButtonGroup() {
         };
 
         const handleAction = () => {
-                if (validBlank) {
+                if (!validBlank) {
                         return
                 }
                 const formData = new FormData();
                 formData.append('action', action);
                 formData.append('item', JSON.stringify(item));
                 formData.append('blank', blank ? blank : '');
-
+                formData.append('store', JSON.stringify(store));
                 formData.append('track', JSON.stringify(trackCode));
-                formData.append('to_store', JSON.stringify(store));
+                formData.append('to_store', JSON.stringify(to_store));
+
                 console.log(...formData.entries())
                 axios.post('http://127.0.0.1:8800/mobile/action/', formData)
                         .then((response) => {
@@ -117,8 +120,8 @@ export default function ButtonGroup() {
                                         :
                                         AutocompleteField(
                                                 stores,
-                                                store,
-                                                setStore,
+                                                to_store,
+                                                setToStore,
                                                 "ТЦ"
                                         )
                                 }
@@ -152,6 +155,7 @@ export default function ButtonGroup() {
                                         <Button variant="contained"
                                                 onClick={handleAction}
                                                 fullWidth
+                                                disabled={!validBlank}
                                         >{actionMap.get(action)}
                                                 <SendIcon />
                                         </Button>

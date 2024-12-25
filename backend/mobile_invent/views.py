@@ -8,7 +8,6 @@ from django.http import HttpResponse, JsonResponse
 from django.views import View
 
 from mobile_invent.services.handler import Handler
-from mobile_invent.services.takeback import TakebackHandler
 
 from .services.blanks.worddocument import WordDocument
 
@@ -130,7 +129,8 @@ class HandleActionView(View):
         operation_id = str(uuid4())[-12:]
         match data["action"]:
             case "takeback":
-                result = TakebackHandler.handle(operation_id=operation_id, **data)
+                # result = TakebackHandler.handle(operation_id=operation_id, **data)
+                pass
             case "giveaway":
                 result = {1, 2}
             case "send":
@@ -142,9 +142,10 @@ class HandleActionView(View):
     def form_data(self, request) -> dict:
         action = request.POST.get('action', '')
         item = json.loads(request.POST.get("item", '{}'))
-        file = request.FILES.get("file", '')
+        file = request.FILES.get("blank", '')
         user = request.session.get('user', USER)
-        return {'action': action, "item": item, "file": file, "user": user}
+        store = request.POST.get('store', '')
+        return {'action': action, "item": item, "file": file, "user": user, "store": store}
 
         
 
