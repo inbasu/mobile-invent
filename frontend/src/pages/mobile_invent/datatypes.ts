@@ -2,7 +2,7 @@ type Value = {
   label: string;
 };
 
-type Values = {
+export type Values = {
   name: string;
   values: Array<Value>;
 };

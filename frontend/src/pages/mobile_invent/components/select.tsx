@@ -38,13 +38,13 @@ const search = (items: Array<Item>, action: string) => {
 
 export default function ActionSelect() {
         const user = useContext(UserContext);
-        const [items, setItems] = useContext(ItemsContext);
-        const [results, setResults] = useContext(ResultContext);
+        const [_items, setItems] = useContext(ItemsContext);
+        const [_results, setResults] = useContext(ResultContext);
         const [action, setAction] = useContext(ActionContext);
         const [data, setData] = useContext(DataContext);
-        const [item, setItem] = useContext(ItemContext);
+        const [_item, setItem] = useContext(ItemContext);
         const [loading, setLoading] = useContext(LoadingContext);
-        const [stores, setStores] = useContext(StoresContext);
+        const [stores, _setStores] = useContext(StoresContext);
         const [store, setStore] = useContext(StoreContext);
 
         useEffect(() => {
@@ -60,9 +60,9 @@ export default function ActionSelect() {
                 setResults([]);
                 setItem(null);
                 setLoading(true);
-                if (store !== undefined) {
+                if (store !== null) {
                         axios.post(`http://127.0.0.1:8800/mobile/items/`,
-                                { 'store': JSON.stringify(store) })
+                                { 'store': store })
                                 .then((response) => {
                                         setData(response.data);
                                         const result = search(response.data, action)
@@ -86,15 +86,15 @@ export default function ActionSelect() {
                                                 label="ТЦ"
                                                 disabled={loading}
                                                 onChange={(event) => setStore(event.target.value)}>
-                                                {user.roles.includes("MCC_RU_INSIGHT_IT_ROLE") && stores ?
-                                                        stores.map(s => {
+                                                {user.roles.includes("MCC_RU_INSIGHT_IT_ROLE") ?
+                                                        stores && stores.map(s => {
                                                                 return (
-                                                                        <MenuItem value={s}>{s.label}</MenuItem>
+                                                                        <MenuItem value={JSON.stringify(s)}>{s.label}</MenuItem>
                                                                 )
                                                         })
-                                                        : user.store_role.map(s => {
+                                                        : stores && stores.filter(s => user.store_role.includes(s.label)).map(s => {
                                                                 return (
-                                                                        <MenuItem value={s} selected>{s}</MenuItem>
+                                                                        <MenuItem value={JSON.stringify(s)}>{s.label}</MenuItem>
                                                                 )
                                                         })
 

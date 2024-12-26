@@ -2,7 +2,7 @@ import datetime
 
 import requests
 
-from mobile_invent.services.handler import Handler, InsightError, JiraError
+from .handler import Handler, InsightError, JiraError
 
 
 class TakebackHandler(Handler):
@@ -22,12 +22,10 @@ class TakebackHandler(Handler):
             return {"result": "", "error": msg}
         itreq = [path for path in Handler.get_field_by_name(self.ereq.get("attrs", {}), "Реквест").get("values", [{}])[0].get("label").split('/') if path][-1]
         inv = Handler.get_field_by_name(self.item['attrs'], "INV No").get('values', [{}])[0].get("label")
-        ereq_id = self.ereq.get('id')
-        return {}
         try:
             ereq = self.change_erequest(name=f'[{itreq}][{inv}] {self.item["label"]}')
             self.logger.info(f'{self.operation_id}: Erequest {self.obj_link(self.ereq)} отредактирован')
-            self.insight_add_attachment(ereq_id, self.file)
+            self.insight_add_attachment(self.ereq.get('id'), self.file)
             self.logger.info(f'{self.operation_id}: К Erequest`у добавлен файл')
             jreq = self.jira_create_req(f'пользователь {self.user.get('email')} создал задачу по сдаче оборудования\n{self.obj_link(self.item)}\nБланк {self.obj_link(self.ereq)}')
             self.logger.info(f'{self.operation_id}: Заявка https://jira.metro-cc.ru/browse/{123} создана')
@@ -42,7 +40,7 @@ class TakebackHandler(Handler):
 
     def change_erequest(self, name: str):
         cur_date = datetime.date.today()
-        ereq_change_response = requests.post('http://127.0.0.1:8000/update', json={'scheme': 1, "object_type_id": 78, "object_id": self.ereq_id,
+        ereq_change_response = requests.post('http://127.0.0.1:8000/update', json={'scheme': 1, "object_type_id": 78, "object_id": self.ereq.get('id'),
                                   "attrs":{
                                         819: [name],                                                              # name
                                         827: [f'{cur_date.day}/{cur_date.month}/{str(cur_date.year)[-2:]}'],      # Дата сдачи

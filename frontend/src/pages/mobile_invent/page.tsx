@@ -30,7 +30,7 @@ export default function Mobile() {
         const [results, setResults] = useState<Array<Item>>([]);
         const [item, setItem] = useState<Item | null>(null);
         const [stores, setStores] = useState<Array<Item>>([]);
-        const [store, setStore] = useState<Item | null>(null);
+        const [store, setStore] = useState<string | null>(null);
 
 
         // динамичное изменение размера
@@ -92,7 +92,7 @@ export default function Mobile() {
                                                                                                                                         sx={{ padding: 0, position: "absolute", right: 0 }}
                                                                                                                                 >
                                                                                                                                         <CloseIcon
-                                                                                                                                                color={item !== null ? "error" : ''} />
+                                                                                                                                                color={item !== null ? "error" : 'disabled'} />
                                                                                                                                 </IconButton>
                                                                                                                         </Typography>
 

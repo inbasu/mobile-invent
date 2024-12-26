@@ -1,7 +1,7 @@
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import './App.css';
 
-import Mobile from './mobile_invent/page';
+import Mobile from './pages/mobile_invent/page';
 
 export interface user {
         username: string,

@@ -1,4 +1,4 @@
-import { act, SetStateAction, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import axios from "axios";
 
@@ -9,7 +9,6 @@ import { Autocomplete, TextField, Typography } from "@mui/material";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import SendIcon from '@mui/icons-material/Send';
 import { Item } from "../datatypes";
-import { Action, Dispatch } from "@reduxjs/toolkit";
 
 
 const actionMap = new Map([['takeback', "Сдать"], ["giveaway", "Выдать"], ["send", "Переслать"]])
@@ -40,11 +39,10 @@ const AutocompleteField = (data: Array<Item> | null, selected: Item | null, setD
 
 
 export default function ButtonGroup() {
-        const [action, setAction] = useContext(ActionContext);
-        const [item, setItem] = useContext(ItemContext);
-        const [stores, setStores] = useContext(StoresContext);
-        const [store, setStore] = useContext(StoreContext);
-        const [actionText, setActionText] = useState<string | undefined>();
+        const [action, _setAction] = useContext(ActionContext);
+        const [item, _setItem] = useContext(ItemContext);
+        const [stores, _setStores] = useContext(StoresContext);
+        const [store, _setStore] = useContext(StoreContext);
         const [blank, setBlank] = useState<File | null>(null);
         const [validBlank, setValidBlank] = useState<boolean | null>(null)
 

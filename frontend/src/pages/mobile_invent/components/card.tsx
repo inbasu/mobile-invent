@@ -1,11 +1,10 @@
 import Grid from "@mui/material/Grid2";
-import { Item, Values } from "../datatypes"
+import { Values } from "../datatypes"
 import ButtonGroup from "./buttonsGrp";
 import { useContext } from "react";
 import { ActionContext, ItemContext } from "../context";
 import { Typography } from "@mui/material";
 
-import { border } from "../page"
 
 const hardwareFields = ["INV No", "Store", "Serial No", "Model", "State", "Location", "User", "Store"];
 const ereqFields = ["Store", "Кто выдал", 'Дата выдачи', "Пользователь", 'Кто принял', 'Дата сдачи'];
@@ -23,8 +22,8 @@ const AttrRow = ({ attr }: { attr: Values }) => {
 
 
 export default function ItemCard() {
-        const [item, setItem] = useContext(ItemContext);
-        const [action, setAction] = useContext(ActionContext);
+        const [item, _setItem] = useContext(ItemContext);
+        const [action, _setAction] = useContext(ActionContext);
 
 
         return (
@@ -75,7 +74,7 @@ export default function ItemCard() {
                                                 return (
                                                         <>
                                                                 <Grid size={4}>{attr}</Grid>
-                                                                <Grid size={8}>{item.itreq[attr]}</Grid>
+                                                                <Grid size={8}>{item?.itreq[attr] ? item?.itreq[attr] : ""}</Grid>
                                                         </>)
                                         })}
                                 </Grid>

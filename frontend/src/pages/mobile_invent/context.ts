@@ -30,5 +30,5 @@ export const StoresContext = createContext<
 >([null, () => {}]);
 
 export const StoreContext = createContext<
-  [Item | null, Dispatch<SetStateAction<Item | null>>]
+  [string | null, Dispatch<SetStateAction<string | null>>]
 >([null, () => {}]);

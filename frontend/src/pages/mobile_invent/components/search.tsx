@@ -18,11 +18,11 @@ const searchFilter = (
 };
 
 export default function SearchBar() {
-        const [action, setAction] = useContext(ActionContext);
-        const [items, setItems] = useContext(ItemsContext);
-        const [results, setResults] = useContext(ResultContext);
-        const [item, setItem] = useContext(ItemContext);
-        const [loading, setLoading] = useContext(LoadingContext);
+        const [action, _setAction] = useContext(ActionContext);
+        const [items, _setItems] = useContext(ItemsContext);
+        const [_results, setResults] = useContext(ResultContext);
+        const [_item, setItem] = useContext(ItemContext);
+        const [loading, _setLoading] = useContext(LoadingContext);
 
         const [label, setLabel] = useState<string>('');
         const [querry, setQuerry] = useState<string>('');

@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid2';
 import { Item } from '../../datatypes';
 import { border } from "../../page";
-import { act, useContext } from 'react';
+import { useContext } from 'react';
 import { ActionContext, ItemContext, ResultContext } from '../../context';
 import { Typography } from '@mui/material';
 
@@ -60,8 +60,8 @@ const itemTable = (item: Item, setItem: Function, selected: Item | null, action:
 
 export default function ItemList() {
         const [item, setItem] = useContext(ItemContext);
-        const [results, setResults] = useContext(ResultContext);
-        const [action, setAction] = useContext(ActionContext);
+        const [results, _setResults] = useContext(ResultContext);
+        const [action, _setAction] = useContext(ActionContext);
 
         return (
                 <>
