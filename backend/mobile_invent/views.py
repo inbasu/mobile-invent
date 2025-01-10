@@ -93,6 +93,19 @@ class GetDeviceListView(View):
         return number
 
 
+class GetITItemsListView(View):
+    def post(self, request):
+        querry = json.loads(json.loads(request.body.decode("utf-8")).get('querry', ''))
+        items = requests.post(f'{API_ROOT_URL}/api/mars/insight/iql/join/', 
+                            json={
+                                "scheme":1, 
+                                "iql": f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND State IN ("Free", "ApprovedToBeSent", "Working", "Stock OK", "Reserved") AND ("INV No" LIKE "{querry}" OR "Serial No" like "{querry}" OR User LIKE "{querry}")', 
+                                'joined_iql': 'objectTypeId=78', 
+                                'on':'Инв No и модель',
+                                })
+
+        return JsonResponse(items.json(), safe=False)
+
 
 class DownloadBlank(View):
     def post(self, request):

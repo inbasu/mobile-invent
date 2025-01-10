@@ -21,6 +21,10 @@ export const ActionContext = createContext<
   [string, Dispatch<SetStateAction<string>>]
 >(["", () => {}]);
 
+export const QuerryContext = createContext<
+  [string, Dispatch<SetStateAction<string>>]
+>(["", () => {}]);
+
 export const LoadingContext = createContext<
   [boolean, Dispatch<SetStateAction<boolean>>]
 >([false, () => {}]);

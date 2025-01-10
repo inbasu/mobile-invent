@@ -9,7 +9,7 @@ import axios from "axios";
 import { Box, IconButton } from "@mui/material";
 import SearchBar from "./components/search";
 import ItemCard from "./components/card";
-import { DataContext, ItemContext, ItemsContext, ResultContext, ActionContext, StoresContext, LoadingContext, StoreContext } from "./context";
+import { DataContext, ItemContext, ItemsContext, ResultContext, ActionContext, StoresContext, LoadingContext, StoreContext, QuerryContext } from "./context";
 import { Typography } from "@mui/material";
 
 import CloseIcon from '@mui/icons-material/Close';
@@ -25,6 +25,7 @@ export default function Mobile() {
         const [loading, setLoading] = useState<boolean>(true);
 
         const [action, setAction] = useState<string>('');
+        const [querry, setQuerry] = useState<string>('');
         const [data, setData] = useState<Array<Item>>([]);
         const [items, setItems] = useState<Array<Item>>([]);
         const [results, setResults] = useState<Array<Item>>([]);
@@ -59,49 +60,51 @@ export default function Mobile() {
                                                                 <ItemsContext.Provider value={[items, setItems]}>
                                                                         <StoreContext.Provider value={[store, setStore]}>
                                                                                 <ActionContext.Provider value={[action, setAction]}>
-                                                                                        <LoadingContext.Provider value={[loading, setLoading]}>
+                                                                                        <QuerryContext.Provider value={[querry, setQuerry]}>
+                                                                                                <LoadingContext.Provider value={[loading, setLoading]}>
 
-                                                                                                <Grid container id="searchRow" sx={{ borderBottom: border }} size={12}>
-                                                                                                        <Grid size={leftCol} p={1}
-                                                                                                                sx={{ borderRight: border }} >
-                                                                                                                <ActionSelect />
+                                                                                                        <Grid container id="searchRow" sx={{ borderBottom: border }} size={12}>
+                                                                                                                <Grid size={leftCol} p={1}
+                                                                                                                        sx={{ borderRight: border }} >
+                                                                                                                        <ActionSelect />
+                                                                                                                </Grid>
+                                                                                                                <Grid size={12 - leftCol} p={1}>
+                                                                                                                        <SearchBar />
+                                                                                                                </Grid>
                                                                                                         </Grid>
-                                                                                                        <Grid size={12 - leftCol} p={1}>
-                                                                                                                <SearchBar />
-                                                                                                        </Grid>
-                                                                                                </Grid>
-                                                                                                <Grid container size={12}>
-                                                                                                        <Grid size={leftCol}
-                                                                                                                sx={{
-                                                                                                                        height: `calc(${height} - ${searchHeight})`,
-                                                                                                                        borderRight: border,
-                                                                                                                        overflowY: "auto",
-                                                                                                                        scrollbarWidth: "none"
-                                                                                                                }}>
-                                                                                                                <ItemList /></Grid>
-                                                                                                        <Grid size={12 - leftCol}>
-                                                                                                                <>
-                                                                                                                        <Typography textAlign={"center"}
-                                                                                                                                variant='subtitle2'
-                                                                                                                                sx={{ position: "sticky", top: 0, borderBottom: border, backgroundColor: "white" }}>
-                                                                                                                                Карточка устройства
-                                                                                                                                <IconButton
-                                                                                                                                        onClick={() => { setItem(null) }}
-                                                                                                                                        size={"small"}
-                                                                                                                                        disabled={item === null}
-                                                                                                                                        sx={{ padding: 0, position: "absolute", right: 0 }}
-                                                                                                                                >
-                                                                                                                                        <CloseIcon
-                                                                                                                                                color={item !== null ? "error" : 'disabled'} />
-                                                                                                                                </IconButton>
-                                                                                                                        </Typography>
+                                                                                                        <Grid container size={12}>
+                                                                                                                <Grid size={leftCol}
+                                                                                                                        sx={{
+                                                                                                                                height: `calc(${height} - ${searchHeight})`,
+                                                                                                                                borderRight: border,
+                                                                                                                                overflowY: "auto",
+                                                                                                                                scrollbarWidth: "none"
+                                                                                                                        }}>
+                                                                                                                        <ItemList /></Grid>
+                                                                                                                <Grid size={12 - leftCol}>
+                                                                                                                        <>
+                                                                                                                                <Typography textAlign={"center"}
+                                                                                                                                        variant='subtitle2'
+                                                                                                                                        sx={{ position: "sticky", top: 0, borderBottom: border, backgroundColor: "white" }}>
+                                                                                                                                        Карточка устройства
+                                                                                                                                        <IconButton
+                                                                                                                                                onClick={() => { setItem(null) }}
+                                                                                                                                                size={"small"}
+                                                                                                                                                disabled={item === null}
+                                                                                                                                                sx={{ padding: 0, position: "absolute", right: 0 }}
+                                                                                                                                        >
+                                                                                                                                                <CloseIcon
+                                                                                                                                                        color={item !== null ? "error" : 'disabled'} />
+                                                                                                                                        </IconButton>
+                                                                                                                                </Typography>
 
-                                                                                                                </>
-                                                                                                                {item ? <ItemCard /> : ''}
-                                                                                                        </Grid>
+                                                                                                                        </>
+                                                                                                                        {item ? <ItemCard /> : ''}
+                                                                                                                </Grid>
 
-                                                                                                </Grid>
-                                                                                        </LoadingContext.Provider>
+                                                                                                        </Grid>
+                                                                                                </LoadingContext.Provider>
+                                                                                        </QuerryContext.Provider>
                                                                                 </ActionContext.Provider>
                                                                         </StoreContext.Provider>
                                                                 </ItemsContext.Provider>

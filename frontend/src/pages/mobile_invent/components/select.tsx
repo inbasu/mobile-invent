@@ -3,37 +3,13 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useContext, useEffect } from 'react';
-import { ActionContext, DataContext, ItemsContext, ItemContext, LoadingContext, ResultContext, StoresContext, StoreContext } from '../context';
-import { Item } from '../datatypes';
+import { ActionContext, DataContext, ItemsContext, ItemContext, LoadingContext, ResultContext, StoresContext, StoreContext, QuerryContext } from '../context';
+import { actionFilter, querryFilter } from '../search';
 import Grid from '@mui/material/Grid2';
 import axios from "axios";
 import { UserContext } from '../../../App';
 
 
-const search = (items: Array<Item>, action: string) => {
-        switch (action) {
-                case "takeback":
-                        return items.filter((item) => {
-
-                                return item.attrs.filter(attr => {
-
-                                        return ((attr.name == "State" && attr.values[0].label == "Working") ||
-                                                (attr.name == "User" && attr.values.length))
-                                }).length
-
-                        })
-                case "giveaway":
-                        return items.filter((item) => item.itreq)
-                case "send":
-                        return items.filter((item) => {
-                                return item.attrs.filter((attr) => {
-                                        return (attr.name == "State" && attr.values[0].label == "ApprovedToBeSent")
-                                }).length
-                        })
-        }
-        return items
-
-}
 
 
 export default function ActionSelect() {
@@ -41,51 +17,58 @@ export default function ActionSelect() {
         const [_items, setItems] = useContext(ItemsContext);
         const [_results, setResults] = useContext(ResultContext);
         const [action, setAction] = useContext(ActionContext);
+        const [querry, setQuerry] = useContext(QuerryContext);
+
         const [data, setData] = useContext(DataContext);
         const [_item, setItem] = useContext(ItemContext);
         const [loading, setLoading] = useContext(LoadingContext);
         const [stores, _setStores] = useContext(StoresContext);
         const [store, setStore] = useContext(StoreContext);
 
-        useEffect(() => {
-                const result = search(data, action)
-                setItems(result);
-                setResults(result);
-        }, [action])
-
 
         useEffect(() => {
                 setData([]);
                 setItems([]);
                 setResults([]);
+                setQuerry('')
                 setItem(null);
-                setLoading(true);
-                if (store !== null) {
+                if (store !== null && store !== "IT") {
+                        setLoading(true);
                         axios.post(`http://127.0.0.1:8800/mobile/items/`,
                                 { 'store': store })
                                 .then((response) => {
                                         setData(response.data);
-                                        const result = search(response.data, action)
+                                        const result = actionFilter(response.data, action, store);
                                         setItems(result);
                                         setResults(result);
+
                                 }).finally(() => { setLoading(false) })
                                 ;
                 }
 
         }, [store])
 
+
+        useEffect(() => {
+                const actionItems = actionFilter(data, action, store);
+                setItems(actionItems);
+                const resultItems = querryFilter(actionItems, querry);
+                setResults(resultItems);
+        }, [action])
+
         return (
                 <Grid container>
                         <Grid size={6} pr={1}>
                                 <FormControl fullWidth>
-                                        <InputLabel id="store-select-label">ТЦ</InputLabel>
+                                        <InputLabel id="store-select-label">1.ТЦ</InputLabel>
                                         <Select
                                                 labelId="store-select-label"
                                                 id="action-select"
                                                 value={store}
-                                                label="ТЦ"
+                                                label="1.ТЦ"
                                                 disabled={loading}
                                                 onChange={(event) => setStore(event.target.value)}>
+                                                {user.roles.includes("MCC_RU_INSIGHT_IT_ROLE") ? <MenuItem value="IT">IT</MenuItem> : ''}
                                                 {user.roles.includes("MCC_RU_INSIGHT_IT_ROLE") ?
                                                         stores && stores.map(s => {
                                                                 return (
@@ -106,15 +89,15 @@ export default function ActionSelect() {
 
                         <Grid size={6}>
                                 <FormControl fullWidth>
-                                        <InputLabel id="action-select-label">{store && 'Выберите действие'}</InputLabel>
+                                        <InputLabel id="action-select-label">{store && '2.Выберите действие'}</InputLabel>
                                         <Select
                                                 labelId="action-select-label"
                                                 id="action-select"
                                                 value={action}
-                                                label="Выберите действие"
+                                                label="2.Выберите действие"
                                                 disabled={loading || !store}
                                                 onChange={(event) => setAction(event.target.value)}>
-                                                <MenuItem value={""}>Посмотреть</MenuItem>
+                                                {store !== "IT" && <MenuItem value={""}>Посмотреть</MenuItem>}
                                                 <MenuItem value={"giveaway"}>Выдать</MenuItem>
                                                 <MenuItem value={'takeback'}>Сдать</MenuItem>
                                                 <MenuItem value={'send'}>Переслать</MenuItem>

@@ -26,7 +26,7 @@ const itemTable = (item: Item, setItem: Function, selected: Item | null, action:
                 "Инв No и модель", "For user"
         ]
         return (
-                <Grid container size={12} pl={1}
+                <Grid container size={12} p={0.5} pl={1}
                         onClick={() => { setItem(item) }}
                         sx={{
                                 borderBottom: border, '&:hover': { background: '#7CB9FF' }, background: item === selected ? '#CCCCCC' :
@@ -36,7 +36,7 @@ const itemTable = (item: Item, setItem: Function, selected: Item | null, action:
                         }>
                         {action === 'giveaway' ?
                                 <Grid size={12}>
-                                        <b>{item.itreq?.Key}</b>
+                                        <b>{item.itreq ? item.itreq.Key : item.label}</b>
 
 
                                 </Grid>
