@@ -1,12 +1,15 @@
 import Grid from "@mui/material/Grid2";
-import { Values } from "../datatypes"
+import { Item, Values } from "../datatypes"
 import ButtonGroup from "./buttonsGrp";
-import { useContext } from "react";
-import { ActionContext, ItemContext, StoreContext } from "../context";
+import { useContext, useEffect, useState } from "react";
+import { ActionContext, ItemContext, StoreContext, StoresContext } from "../context";
 import { Typography } from "@mui/material";
 
 import Button from '@mui/material/Button';
 import { Box, IconButton } from "@mui/material";
+
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const hardwareFields = ["INV No", "Store", "Serial No", "Model", "State", "Location", "User", "Store"];
 const ereqFields = ["Store", "Кто выдал", 'Дата выдачи', "Пользователь", 'Кто принял', 'Дата сдачи'];
@@ -26,8 +29,15 @@ const AttrRow = ({ attr }: { attr: Values }) => {
 export default function ItemCard() {
         const [item, _setItem] = useContext(ItemContext);
         const [action, _setAction] = useContext(ActionContext);
-        const [store, _setStore] = useContext(StoreContext);
+        const [store, setStore] = useState<Item | null>();
+        const [location, setLocation] = useState<Item | null>();
+        const [locationInput, setLocationInput] = useState<string>('');
+        const [stores, _setStores] = useContext(StoresContext);
 
+        useEffect(() => {
+                setLocation(null);
+                setLocationInput('');
+        }, [store])
         return (
                 <Grid container p={2}>
                         {item?.id === 0 ? <Grid size={12}><h3>{item?.label}</h3></Grid> : <Grid size={12}><h3>{item?.itreq?.Key}</h3></Grid>}
@@ -95,6 +105,34 @@ export default function ItemCard() {
                                         })}
                                 </Grid>
                         }
+
+                        <Autocomplete
+                                disablePortal
+                                options={stores ? stores : []}
+                                value={store}
+                                onChange={(_, newValue) => setStore(newValue)}
+                                sx={{ width: 300 }}
+                                renderInput={(params) => <TextField {...params} label="Store" size="small" />}
+                        />
+                        <Autocomplete
+                                disablePortal
+                                options={store ? store.joined : []}
+                                value={location}
+                                onChange={(_, newValue) => {
+                                        console.log(newValue?.id)
+                                        setLocation(newValue)
+                                }}
+                                inputValue={locationInput}
+                                onInputChange={(_, newInputValue) => {
+                                        locationInput || location ?
+                                                setLocationInput(newInputValue) :
+                                                '';
+                                }}
+
+                                sx={{ width: 300 }}
+                                disabled={store ? false : true}
+                                renderInput={(params) => <TextField {...params} label="Location" size="small" />}
+                        />
                         <Grid size={12}>
                                 {action && item?.id !== 0 ? <ButtonGroup /> : ''}
                         </Grid>

@@ -31,9 +31,18 @@ def get_reqs():
 # Create your views here.
 class GetStoresListView(View):
     def post(self, request):
-        return JsonResponse(requests.post(f'{API_ROOT_URL}/api/mars/insight/iql', 
-                                          json={"scheme": 1, "iql": 'objectTypeId = 16 AND "УНАДРТЦ" IS NOT EMPTY AND "Jira issue location" IS NOT EMPTY'}).json(),
-                            safe=False)
+        return JsonResponse(requests.post(f'{API_ROOT_URL}/api/mars/insight/iql/join/', 
+                                          json={"scheme": 1, 
+                                                "iql": 'objectTypeId = 16', 
+                                                "joined_iql": "objectTypeId = 17",
+                                                "on": "Store"}).json() , safe=False)
+
+
+class GetUsersListView(View):
+    def post(self, request): 
+        FIO =  json.loads(json.loads(request.body.decode("utf-8")).get('FIO', ''))
+        return JsonResponse(requests.post(f'{API_ROOT_URL}/api/mars/insight/iql/',
+                                          json={"scheme": 2, "iql": f'ФИО LIKE "{FIO}" AND Status = Active'}), safe=False)
 
 
 class GetDeviceListView(View):
@@ -57,6 +66,7 @@ class GetDeviceListView(View):
 
     def zip_it(self, insight_data: list[dict], jira_data: list[dict]) -> list:
         for item in insight_data:
+            item['joined'] = [max(item['joined'], key = lambda i: i['id'])] if item['joined'] else []
             numbers = [attr["values"][0]["label"] for attr in item["attrs"] if attr["name"] in {"Serial No", "INV No"}]
             for idx, req in enumerate(jira_data):
                 item_no = self.get_item_number(req.get('fields', {}).get('customfield_13400', '')) # 13400 поле inv.

@@ -55,7 +55,7 @@ export default function ActionSelect() {
                 const resultItems = querryFilter(actionItems, querry);
                 setResults(resultItems);
         }, [action])
-
+        //AND "УНАДРТЦ" IS NOT EMPTY AND "Jira issue location" IS NOT EMPTY
         return (
                 <Grid container>
                         <Grid size={6} pr={1}>
@@ -71,9 +71,11 @@ export default function ActionSelect() {
                                                 {user.roles.includes("MCC_RU_INSIGHT_IT_ROLE") ? <MenuItem value="IT">IT</MenuItem> : ''}
                                                 {user.roles.includes("MCC_RU_INSIGHT_IT_ROLE") ?
                                                         stores && stores.map(s => {
-                                                                return (
-                                                                        <MenuItem value={JSON.stringify(s)}>{s.label}</MenuItem>
-                                                                )
+                                                                if (s.attrs.filter(attr => (attr.name === "Jira issue location" || attr.name == "УНАДРТЦ")).length == 2) {
+                                                                        return (
+                                                                                <MenuItem value={JSON.stringify(s)}>{s.label}</MenuItem>
+                                                                        )
+                                                                }
                                                         })
                                                         : stores && stores.filter(s => user.store_role.includes(s.label)).map(s => {
                                                                 return (
