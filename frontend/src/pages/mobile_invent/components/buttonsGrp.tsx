@@ -9,6 +9,7 @@ import { Autocomplete, TextField, Typography } from "@mui/material";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import SendIcon from '@mui/icons-material/Send';
 import { Item } from "../datatypes";
+import { API_URL } from "../page";
 
 
 const actionMap = new Map([['takeback', "Сдать"], ["giveaway", "Выдать"], ["send", "Переслать"]])
@@ -50,7 +51,7 @@ export default function ButtonGroup() {
         const [trackCode, setTrackCode] = useState<string | null>(null);
 
         const handleDownload = () => {
-                axios.post('http://127.0.0.1:8800/mobile/blank/', { action: action, item: item }, { responseType: "blob" })
+                axios.post(`${API_URL}/blank/`, { action: action, item: item }, { responseType: "blob" })
                         .then(response => {
                                 const type = response.headers["content-type"];
                                 const url = window.URL.createObjectURL(new Blob([response.data], { type: type }));
@@ -87,7 +88,7 @@ export default function ButtonGroup() {
                 formData.append('to_store', JSON.stringify(to_store));
 
                 console.log(...formData.entries())
-                axios.post('http://127.0.0.1:8800/mobile/action/', formData)
+                axios.post(`${API_URL}/action/`, formData)
                         .then((response) => {
                                 if (response.data.error) {
                                         console.log(123)

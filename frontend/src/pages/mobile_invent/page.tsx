@@ -14,6 +14,10 @@ import { Typography } from "@mui/material";
 
 import CloseIcon from '@mui/icons-material/Close';
 
+
+export const API_URL = 'http://127.0.0.1:8800/mobile';
+
+
 const height: string = "86vh"
 const leftCol: number = 3.5;
 
@@ -43,7 +47,7 @@ export default function Mobile() {
         window.addEventListener("resize", handleResize)
 
         useEffect(() => {
-                axios.post("http://127.0.0.1:8800/mobile/stores/")
+                axios.post(`${API_URL}/stores/`)
                         .then(response => {
                                 setStores(response.data);
                         })

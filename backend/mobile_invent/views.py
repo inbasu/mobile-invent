@@ -15,12 +15,6 @@ logger = getLogger("mobile")
 
 API_ROOT_URL = 'http://127.0.0.1:8000/'
 
-USER = {
-        "username": "ivan.fisenko",
-        "email": "ivan.fisenko@metro-cc.ru",
-        "roles": ["MCC_RU_INSIGHT_IT_ROLE"],
-        "store_role": ["1065"]
-        }
 
 def get_reqs():
     with open('./itreqs.json', 'r') as f:
@@ -31,18 +25,26 @@ def get_reqs():
 # Create your views here.
 class GetStoresListView(View):
     def post(self, request):
-        return JsonResponse(requests.post(f'{API_ROOT_URL}/api/mars/insight/iql/join/', 
-                                          json={"scheme": 1, 
-                                                "iql": 'objectTypeId = 16', 
-                                                "joined_iql": "objectTypeId = 17",
-                                                "on": "Store"}).json() , safe=False)
+        user = request.session.get("user", {})
+        if not user:
+            return JsonResponse([], safe=False)
+        json = {"scheme": 1, 
+                "iql": 'objectTypeId = 16', 
+                "on": "Store"}
+        if "MCC_RU_INSIGHT_IT_ROLE" in user.get('roles', ''):
+            json['joined_iql'] = "objectTypeId = 17"
+        return JsonResponse(requests.post(f'{API_ROOT_URL}/api/mars/insight/iql/join/', json=json 
+                                          ).json() , safe=False)
 
 
 class GetUsersListView(View):
     def post(self, request): 
-        FIO =  json.loads(json.loads(request.body.decode("utf-8")).get('FIO', ''))
-        return JsonResponse(requests.post(f'{API_ROOT_URL}/api/mars/insight/iql/',
-                                          json={"scheme": 2, "iql": f'ФИО LIKE "{FIO}" AND Status = Active'}), safe=False)
+        FIO =  json.loads(request.body.decode("utf-8")).get('user', '')
+        response =  requests.post(f'{API_ROOT_URL}/api/mars/insight/iql/',
+                                          json={"scheme": 2, "iql": f'ФИО LIKE "{FIO}" AND Status = Active'}).json()
+        for usr in response:
+            usr["label"] = f"{Handler.get_field_by_name(usr["attrs"], "Store Insight").get("values", [{}])[0].get("label", '')} | {usr["label"]} | {Handler.get_field_by_name(usr["attrs"], "Email").get("values", [{}])[0].get("label", '')}"
+        return JsonResponse(response, safe=False)
 
 
 class GetDeviceListView(View):
@@ -59,8 +61,8 @@ class GetDeviceListView(View):
                                 })
             jira_data = requests.post(f"{API_ROOT_URL}/api/mars/jira/jql",
                                       json={"jql": f'project = "IT Requests" AND type = "HW/SW Request" AND Hardware in (Laptop, iPad, "Mobile Phone") AND inv. is not EMPTY AND "For user" is not EMPTY AND labels != hwr_done AND status in ("SSS To Do", "Wait Delivery" ) AND "Issue Location" = {jira_issue_location}'})
-            if insight_data.status_code == 200:
-                return JsonResponse(self.zip_it(insight_data.json(), []), safe=False)
+            if insight_data.status_code == 200 and jira_data.status_code == 200:
+                return JsonResponse(self.zip_it(insight_data.json(), jira_data.json()), safe=False)
         return JsonResponse([], safe=False)
 
 

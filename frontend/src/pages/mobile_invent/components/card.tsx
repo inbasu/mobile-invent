@@ -11,6 +11,8 @@ import { Box, IconButton } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
+import axios from "axios";
+import { API_URL } from "../page";
 const hardwareFields = ["INV No", "Store", "Serial No", "Model", "State", "Location", "User", "Store"];
 const ereqFields = ["Store", "Кто выдал", 'Дата выдачи', "Пользователь", 'Кто принял', 'Дата сдачи'];
 const jiraFields = ['Key', 'Issue Location', 'For user', 'inv.'];
@@ -31,13 +33,37 @@ export default function ItemCard() {
         const [action, _setAction] = useContext(ActionContext);
         const [store, setStore] = useState<Item | null>();
         const [location, setLocation] = useState<Item | null>();
+
+        const [user, setUser] = useState<Item | null>();
+        const [userInput, setUserInput] = useState<string>();
+        const [users, setUsers] = useState<Array<Item> | null>();
+
         const [locationInput, setLocationInput] = useState<string>('');
         const [stores, _setStores] = useContext(StoresContext);
-
+        const [selectedStore, _setStore] = useContext(StoreContext)
         useEffect(() => {
+                // Динамическое изменение поля loation в зависимости от Store
                 setLocation(null);
                 setLocationInput('');
         }, [store])
+
+
+        useEffect(() => {
+                console.log(userInput)
+                if (userInput && userInput?.length > 3) {
+                        axios.post(`${API_URL}/users/`, { user: userInput })
+                                .then(response => {
+                                        setUsers(response.data)
+
+
+                                })
+                } else {
+                        setUsers([])
+                }
+        }, [userInput])
+
+
+
         return (
                 <Grid container p={2}>
                         {item?.id === 0 ? <Grid size={12}><h3>{item?.label}</h3></Grid> : <Grid size={12}><h3>{item?.itreq?.Key}</h3></Grid>}
@@ -105,35 +131,82 @@ export default function ItemCard() {
                                         })}
                                 </Grid>
                         }
+                        {selectedStore === "IT" && action === "giveaway" ? (
 
-                        <Autocomplete
-                                disablePortal
-                                options={stores ? stores : []}
-                                value={store}
-                                onChange={(_, newValue) => setStore(newValue)}
-                                sx={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} label="Store" size="small" />}
-                        />
-                        <Autocomplete
-                                disablePortal
-                                options={store ? store.joined : []}
-                                value={location}
-                                onChange={(_, newValue) => {
-                                        console.log(newValue?.id)
-                                        setLocation(newValue)
-                                }}
-                                inputValue={locationInput}
-                                onInputChange={(_, newInputValue) => {
-                                        locationInput || location ?
-                                                setLocationInput(newInputValue) :
-                                                '';
-                                }}
+                                <Grid container size={12}>
+                                        <Grid size={12}><Typography variant='overline'>IT привелегии</Typography></Grid>
+                                        <Grid size={4} >
+                                                Store:
+                                        </Grid>
+                                        <Grid size={8} >
+                                                <Autocomplete
+                                                        fullWidth
+                                                        disablePortal
+                                                        options={stores ? stores : []}
+                                                        value={store}
+                                                        onChange={(_, newValue) => setStore(newValue)}
+                                                        renderInput={(params) => <TextField {...params} size="small" variant="standard" />}
+                                                />
+                                        </Grid>
+                                        <Grid size={4}>
+                                                Location:
+                                        </Grid>
+                                        <Grid size={8}>
+                                                <Autocomplete
+                                                        fullWidth
+                                                        disablePortal
+                                                        options={store ? store.joined : []}
+                                                        value={location}
+                                                        onChange={(_, newValue) => {
+                                                                setLocation(newValue)
+                                                                console.log(user)
+                                                        }}
+                                                        inputValue={locationInput}
+                                                        onInputChange={(_, newInputValue) => {
+                                                                locationInput || location ?
+                                                                        setLocationInput(newInputValue) :
+                                                                        '';
+                                                        }}
 
-                                sx={{ width: 300 }}
-                                disabled={store ? false : true}
-                                renderInput={(params) => <TextField {...params} label="Location" size="small" />}
-                        />
-                        <Grid size={12}>
+                                                        disabled={store ? false : true}
+                                                        renderInput={(params) => <TextField {...params} size="small" variant="standard" />}
+                                                />
+                                        </Grid>
+                                        <Grid size={4}>
+                                                User:
+                                        </Grid>
+                                        <Grid size={8}>
+                                                <Autocomplete
+                                                        fullWidth
+                                                        disablePortal
+                                                        options={users ? users : []}
+                                                        value={user}
+                                                        onChange={(_, newValue) => {
+                                                                setUser(newValue)
+                                                                console.log(user)
+                                                        }}
+                                                        inputValue={userInput}
+                                                        onInputChange={(_, newInputValue) => {
+
+                                                                setUserInput(newInputValue)
+
+                                                        }}
+
+                                                        renderInput={(params) => <TextField {...params} size="small" variant="standard" />}
+                                                />
+                                        </Grid>
+
+                                        <Grid size={4}>
+                                                Request number:
+                                        </Grid>
+                                        <Grid size={8}>
+                                                <TextField size="small" variant="standard" type="number" fullWidth />
+                                        </Grid>
+
+                                </Grid>
+                        ) : ''}
+
+                        < Grid size={12}>
                                 {action && item?.id !== 0 ? <ButtonGroup /> : ''}
                         </Grid>
                 </Grid >)

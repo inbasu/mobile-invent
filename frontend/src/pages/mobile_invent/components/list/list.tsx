@@ -10,15 +10,6 @@ const getValue = (item: Item, attrs: Array<string>) => {
         return item ? item.attrs?.filter(attr => attrs.includes(attr.name)) : []
 }
 
-const validationCheck = (item: Item, action: string) => {
-        return ((getValue(item, ['State'])[0]?.values[0]?.label === "Free" &&
-                getValue(item.joined[0], ['Кто принял'])[0]?.values.length != 1) ||
-                (!['Free', "Working", "ApprovedToBeSent", "Reserved"].includes(getValue(item, ['State'])[0]?.values[0]?.label)) ||
-                (getValue(item, ['State'])[0]?.values[0]?.label === "Working" &&
-                        getValue(item.joined[0], ['Кто принял'])[0]?.values.length === 1) ||
-                ((action === "takeback") && item.joined.length === 0))
-}
-
 
 const itemTable = (item: Item, setItem: Function, selected: Item | null, action: string) => {
         const fields: Array<string> = [
@@ -29,9 +20,7 @@ const itemTable = (item: Item, setItem: Function, selected: Item | null, action:
                 <Grid container size={12} p={0.5} pl={1}
                         onClick={() => { setItem(item) }}
                         sx={{
-                                borderBottom: border, '&:hover': { background: '#7CB9FF' }, background: item === selected ? '#CCCCCC' :
-                                        validationCheck(item, action) ? '#FFCDD2' : ''
-
+                                borderBottom: border, '&:hover': { background: '#7CB9FF' }, background: item === selected ? '#CCCCCC' : ''
                         }
                         }>
                         {action === 'giveaway' ?

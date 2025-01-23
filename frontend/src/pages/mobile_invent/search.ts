@@ -3,7 +3,7 @@ import { Item } from "./datatypes";
 export function actionFilter(
   items: Array<Item>,
   action: string,
-  store: string,
+  store: string | null,
 ): Array<Item> {
   switch (action) {
     case "takeback":

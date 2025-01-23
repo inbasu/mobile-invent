@@ -9,8 +9,11 @@ const errors = new Map<string, string>([
 ])
 
 
+type props = {
+        error: string;
+}
 
-export default function Error({ error }: { string }) {
+export default function Error({ error }: props) {
         const [_loading, setLoading] = useContext(LoadingContext);
         const [item, _setItem] = useContext(ItemContext);
         const [action, _setAction] = useContext(ActionContext);

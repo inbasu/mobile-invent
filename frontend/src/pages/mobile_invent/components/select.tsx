@@ -54,6 +54,7 @@ export default function ActionSelect() {
                 setItems(actionItems);
                 const resultItems = querryFilter(actionItems, querry);
                 setResults(resultItems);
+                setItem(null);
         }, [action])
         //AND "УНАДРТЦ" IS NOT EMPTY AND "Jira issue location" IS NOT EMPTY
         return (
