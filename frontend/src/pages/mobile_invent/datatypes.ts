@@ -7,7 +7,7 @@ export type Values = {
   values: Array<Value>;
 };
 
-type Itreq = {
+export type Itreq = {
   Key: string;
   "inv.": string;
   "For user": string;

@@ -1,12 +1,12 @@
 import Grid from "@mui/material/Grid2";
-import { Item, Values } from "../datatypes"
+import { Item, Itreq, Values } from "../datatypes"
 import ButtonGroup from "./buttonsGrp";
 import { useContext, useEffect, useState } from "react";
 import { ActionContext, ItemContext, StoreContext, StoresContext } from "../context";
 import { Typography } from "@mui/material";
 
 import Button from '@mui/material/Button';
-import { Box, IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -126,7 +126,7 @@ export default function ItemCard() {
                                                 return (
                                                         <>
                                                                 <Grid size={4}>{attr}</Grid>
-                                                                <Grid size={8}>{item?.itreq[attr] ? item?.itreq[attr] : ""}</Grid>
+                                                                <Grid size={8}>{(item?.itreq && item.itreq[attr as keyof Itreq]) ? item?.itreq[attr as keyof Itreq] : ""}</Grid>
                                                         </>)
                                         })}
                                 </Grid>
