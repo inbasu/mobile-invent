@@ -15,7 +15,7 @@ import { Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 
-export const API_URL = 'http://127.0.0.1:8800/mobile';
+export const API_URL = 'http://127.0.0.1:8000/mobile';
 
 
 const height: string = "86vh"

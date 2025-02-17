@@ -8,7 +8,7 @@ import { actionFilter, querryFilter } from '../search';
 import Grid from '@mui/material/Grid2';
 import axios from "axios";
 import { UserContext } from '../../../App';
-
+import { API_URL } from '../page';
 
 
 
@@ -34,7 +34,7 @@ export default function ActionSelect() {
                 setItem(null);
                 if (store !== null && store !== "IT") {
                         setLoading(true);
-                        axios.post(`http://127.0.0.1:8800/mobile/items/`,
+                        axios.post(`${API_URL}/items/`,
                                 { 'store': store })
                                 .then((response) => {
                                         setData(response.data);

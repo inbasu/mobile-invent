@@ -66,7 +66,7 @@ export default function ItemCard() {
 
         return (
                 <Grid container p={2}>
-                        {item?.id === 0 ? <Grid size={12}><h3>{item?.label}</h3></Grid> : <Grid size={12}><h3>{item?.itreq?.Key}</h3></Grid>}
+                        {item?.id !== 0 ? <Grid size={12}><h3>{item?.label}</h3></Grid> : <Grid size={12}><h3>{item?.itreq?.Key}</h3></Grid>}
                         <Grid size={12}><Typography variant='overline'>Оборудование</Typography></Grid>
                         {item?.id !== 0 ?
                                 <Grid container size={12} pb={3}>
