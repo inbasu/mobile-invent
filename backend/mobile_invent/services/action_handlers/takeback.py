@@ -1,8 +1,8 @@
+import asyncio
 import datetime
 
 import requests
 
-from mobile_invent.views import INTERFACE
 from services.atlassian_adapters.unit_factory import Formatter, Insight
 
 from .handler import Handler, InsightError, InsightHandler, JiraError, JiraHandler
@@ -15,19 +15,27 @@ class TakebackHandler(JiraHandler, InsightHandler):
         super().__init__(*args, **kwargs)
         self.ereq = self.item.get("joined", [{}])[0]
 
-    @Handler.hw_user_update
     async def handle(self) -> dict:
         """да функция асинхроннаяно выполняется последовательно"""
         if not self.ereq or self.ereq.get("Дата сдачи", False):
             msg = f"{self.operation_id}: Нет открытого Erequest'а для {self.item['label']}"
             self.logger.error(msg)
             return {"result": "", "error": msg}
+        if not self.hw_user_id:
+            msg = f"{self.operation_id}: Проблема со сдающим пользователем, очевидно же."
+            self.logger.error(msg)
+            return {"result": "", "error": msg}
         try:
+            # Start
+            self.logger.info(f"{self.operation_id}: {self.action} {self.item['label']} {self.user['email']}")
             await self._change_erequest()
             await self._insight_inv_client.upload_attachment()
-            iterq = await self.jira_create_req("ipad")
-            await self.jira_add_attachment(itreq=iterq)
-            # DONE!
+            iterq = await self.jira_create_req(
+                "ipad",
+                desc=f"Пользователь {self.user.get('email')} создал задачу по сдаче оборудования\n{self.obj_link(self.item)}\nБланк {self.obj_link(self.ereq)}",
+            )
+            await asyncio.gather(self.jira_add_attachment(itreq=iterq), self.hw_user_update(), return_exceptions=True)
+            # End!
             self.logger.info(f"{self.operation_id}: Оборудование успешно сдано {self.obj_link(self.item)}")
             return {"result": "ok", "error": ""}
         except (JiraError, InsightError) as e:

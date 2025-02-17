@@ -1,30 +1,36 @@
-from .handler import Handler, JiraError
+import asyncio
+
+from .handler import InsightHandler, JiraError, JiraHandler
 
 
-class SendHandler(Handler):
+class SendHandler(InsightHandler, JiraHandler):
     action = "Пересылка"
 
-    def __init__(self, item, store, code: str, operation_id: str, user, **kwargs) -> None:
-        self.operation_id = operation_id
-        self.item = item
-        self.store = store
-        self.code = code
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(self, *args, **kwargs)
 
-    @Handler.hw_user_update
-    def handle(self) -> dict:
+    async def handle(self) -> dict:
         try:
-            self.jira_create_req('')
-            self.logger.info('')
-            self.insight_update_hardware()
-            self.logger.info("")
+            self.logger.info(f"{self.operation_id}: начат процесс отправки оборудования {self.obj_link(self.item)}")
+            await asyncio.gather(
+                self.jira_create_req(
+                    "ipad",
+                    desc=f"Пользователь {self.user.get('email')} создал задачу по сдаче пересылке\n{self.obj_link(self.item)}\nТрек номер: {self.code}",
+                ),
+                self.update_hardware(),
+            )
+
         except JiraError:
             pass
-        return {}         
+        return {}
 
-    def insight_update_hardware(self):
-        pass
+    async def update_hardware(self) -> None:
+        if await self._insight_inv_client.update_object(
+            type_id=8, object_id=self.item["id"], attrs={214: "Store", 661: 126836, 217: self.code}
+        ):
+            self.logger.info(f"{self.operation_id}: Оборудование успешно отправленно {self.obj_link(self.item)}")
+            return None
+        self.logger.error(f"{self.operation_id}: Произошла ошибка в потправке оборудования {self.obj_link(self.item)}")
 
-
-
-            
-
+    async def _change_erequest(self) -> None:
+        raise NotImplementedError()

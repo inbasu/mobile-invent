@@ -4,10 +4,10 @@ from abc import ABC, abstractmethod
 from logging import getLogger
 from typing import Any
 
-from mobile_invent.views import INTERFACE
-from services.atlassian_adapters.insight.unit import InsightMetroUnit
 from services.atlassian_adapters.jira.unit import JiraMetroUnit
 from services.atlassian_adapters.unit_factory import Formatter, Insight, Interface
+
+INTERFACE = Interface.MARS_INSIGHT
 
 
 class InsightError(Exception):
@@ -46,21 +46,6 @@ class Handler(ABC):
     def get_label_of_field(field: dict) -> Any:
         return field.get("values", [{}])[0].get("label")
 
-    @staticmethod
-    def hw_user_update(func):
-        async def wrapper(self, *args, **kwargs):
-            if user_id := self.hw_user_id:
-                Handler.logger.info(f"{self.operation_id}: {self.action} {self.item['label']} {self.user['email']}")
-                update = func(self, *args, **kwargs)
-                if not update.get("error", False):
-                    time.sleep(3)
-                    client = Insight.create(interface=INTERFACE, scheme=1, formatter=Formatter.ATTRS_IN_LIST)
-                    await client.update_object(type_id=8, object_id=self.item["id"], attrs={2427: [user_id]})
-                return update
-            return {}
-
-        return wrapper
-
     @classmethod
     def zip_it(cls, main: list[dict], joined: list[dict], on: str) -> list:
         if main and joined:
@@ -77,19 +62,16 @@ class Handler(ABC):
 
 class InsightHandler(Handler):
     def __init__(self, *args, **kwargs) -> None:
+        super().__init__(self, *args, **kwargs)
         self._insight_inv_client = Insight.create(interface=INTERFACE, scheme=1, formatter=Formatter.ATTRS_IN_LIST)
         self._insight_auth_client = Insight.create(interface=INTERFACE, scheme=2, formatter=Formatter.ATTRS_IN_LIST)
-        super().__init__(self, *args, **kwargs)
+        self.hw_user_id = self.get_user(self.user.get("email"))
 
     @abstractmethod
     async def _change_erequest(self) -> None:
         """how to update ereq"""
 
-    @property
-    async def hw_user_id(self) -> str:
-        return await self.get_user(self.user.get("email"))
-
-    async def get_user(self, user_email) -> str:
+    async def get_user(self, user_email) -> str | bool:
         try:
             return (
                 await self._insight_auth_client.get_objects(
@@ -97,7 +79,7 @@ class InsightHandler(Handler):
                 )
             )[0]["id"]
         except (IndexError, KeyError):
-            raise InsightError("Проблема с пользователем.")
+            return False
 
     async def insight_add_attachment(self):
         self.logger.info(f"{self.operation_id}: К Erequest`у добавлен файл")
@@ -105,15 +87,25 @@ class InsightHandler(Handler):
     def obj_link(self, obj) -> str:
         return f"https://jirainvent.metro-cc.ru/secure/insight/assets/IN-{obj.get('id')}"
 
+    async def hw_user_update(self) -> None:
+        time.sleep(3)
+        if await self._insight_auth_client.update_object(
+            type_id=8, object_id=self.item["id"], attrs={2427: self.hw_user_id}
+        ):
+            self.logger.info(f"{self.operation_id}: HWUserUpdate изменено.")
+            return None
+        self.logger.error(f"{self.operation_id}: HWUserUpdate НЕ изменено.")
+
 
 class JiraHandler(Handler):
     _jira_client: JiraMetroUnit
+    metro_team: str = "FLS"
 
-    async def jira_create_req(self, component):
+    async def jira_create_req(self, component, desc):
         jreq = await self._jira_client.create_issue(
             summary=f"{self.action} мобильного оборудования ТЦ",
-            description="f'пользователь {self.user.get('email')} создал задачу по сдаче оборудования\n{self.obj_link(self.item)}\nБланк {self.obj_link(self.ereq)}'",
-            fields={"mteam": "FLS", "components": component},
+            description=desc,
+            fields={"mteam": self.metro_team, "components": component},
         )
         if jreq.startswith("IT-"):
             self.logger.info(f"{self.operation_id}: Заявка https://jira.metro-cc.ru/browse/{123} создана")

@@ -7,15 +7,13 @@ from uuid import uuid4
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 
-from services.atlassian_adapters.unit_factory import Formatter, Insight, Interface, Jira
+from mobile_invent.services.action_handlers.handler import INTERFACE
+from services.atlassian_adapters.unit_factory import Formatter, Insight, Jira
 
 from .services.action_handlers import GiveawayHandler, Handler, SendHandler, TakebackHandler
 from .services.blanks.worddocument import WordDocument
 
 logger = getLogger("mobile")
-
-
-INTERFACE = Interface.MARS_INSIGHT
 
 
 def get_reqs():
