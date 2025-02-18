@@ -7,10 +7,10 @@ from uuid import uuid4
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 
-from services.atlassian_adapters.unit_factory import Formatter, Insight, Jira
+from services.atlassian_adapters.unit_factory import Formatter, Insight, Jira, Project
 
 from .services.action_handlers import GiveawayHandler, Handler, SendHandler, TakebackHandler
-from .services.action_handlers.handler import INSIGHT_INTERFACE
+from .services.action_handlers.handler import INSIGHT_INTERFACE, JIRA_INTERFACE
 from .services.blanks.worddocument import WordDocument
 
 logger = getLogger("mobile")
@@ -75,15 +75,16 @@ class GetDeviceListView(View):
         )
         if store and jira_issue_location:
             insight_client = Insight.create(scheme=1, interface=INSIGHT_INTERFACE, formatter=Formatter.ATTRS_IN_LIST)
-            # jira_client = Jira.create()
+            jira_client = Jira.create(interface=JIRA_INTERFACE, project=Project.ITREQ)
             iql = f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({store["label"]}) AND State IN ("Free", "ApprovedToBeSent", "Working", "Stock OK", "Reserved")'
             jql = f'project = "IT Requests" AND type = "HW/SW Request" AND Hardware in (Laptop, iPad, "Mobile Phone") AND inv. is not EMPTY AND "For user" is not EMPTY AND labels != hwr_done AND status in ("SSS To Do", "Wait Delivery" ) AND "Issue Location" = {jira_issue_location}'
-            items, ereqs = await asyncio.gather(
+            items, ereqs, itreqs = await asyncio.gather(
                 insight_client.get_objects(iql=iql),
                 insight_client.get_objects(iql=f"objectTypeId=78 AND object HAVING outboundReferences({iql})"),
+                jira_client.get_issues(jql=jql),
             )
             items = Handler.zip_it(items, ereqs, "Инв No и модель")
-        return JsonResponse(items, safe=False)
+        return JsonResponse(self.zip_it(items, itreqs), safe=False)
 
     def zip_it(self, insight_data: list[dict], jira_data: list[dict]) -> list:
         for item in insight_data:
