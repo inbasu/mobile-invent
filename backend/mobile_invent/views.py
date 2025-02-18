@@ -7,13 +7,27 @@ from uuid import uuid4
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 
-from mobile_invent.services.action_handlers.handler import INTERFACE
 from services.atlassian_adapters.unit_factory import Formatter, Insight, Jira
 
 from .services.action_handlers import GiveawayHandler, Handler, SendHandler, TakebackHandler
+from .services.action_handlers.handler import INSIGHT_INTERFACE
 from .services.blanks.worddocument import WordDocument
 
 logger = getLogger("mobile")
+
+
+USER = {
+    "username": "ivan.fisenko",
+    "email": "ivan.fisenko@metro-cc.ru",
+    "roles": [
+        "MCC_RU_INSIGHT_QA_ROLE",
+        "MCC_RU_INSIGHT_ACCOUNTANT_ROLE",
+        "MCC_RU_INSIGHT_IT_INVENTADMIN_ROLE",
+        "MCC_RU_INSIGHT_IT_ROLE",
+        "MCC_RU_INSIGHT_STORE_ROLE",
+    ],
+    "store_role": ["1011", "1014"],
+}
 
 
 def get_reqs():
@@ -29,7 +43,7 @@ class GetStoresListView(View):
         if not user:
             pass
             # return JsonResponse([], safe=False)
-        client = Insight.create(scheme=1, interface=INTERFACE, formatter=Formatter.ATTRS_IN_LIST)
+        client = Insight.create(scheme=1, interface=INSIGHT_INTERFACE, formatter=Formatter.ATTRS_IN_LIST)
         if "MCC_RU_INSIGHT_IT_ROLE" in user.get("roles", ""):
             stores, locations = await asyncio.gather(
                 client.get_objects(iql="objectTypeId = 16", results=200),
@@ -44,7 +58,7 @@ class GetStoresListView(View):
 class GetUsersListView(View):
     async def post(self, request):
         FIO = json.loads(request.body.decode("utf-8")).get("user", "")
-        client = Insight.create(scheme=2, interface=INTERFACE, formatter=Formatter.ATTRS_IN_LIST)
+        client = Insight.create(scheme=2, interface=INSIGHT_INTERFACE, formatter=Formatter.ATTRS_IN_LIST)
         users = await client.get_objects(iql=f'ФИО LIKE "{FIO}" AND Status = Active')
         for usr in users:
             usr["label"] = (
@@ -60,10 +74,10 @@ class GetDeviceListView(View):
             Handler.get_field_by_name(store["attrs"], "Jira issue location").get("values", [{}])[0].get("label", "")
         )
         if store and jira_issue_location:
-            insight_client = Insight.create(scheme=1, interface=INTERFACE, formatter=Formatter.ATTRS_IN_LIST)
+            insight_client = Insight.create(scheme=1, interface=INSIGHT_INTERFACE, formatter=Formatter.ATTRS_IN_LIST)
             # jira_client = Jira.create()
             iql = f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND Store in ({store["label"]}) AND State IN ("Free", "ApprovedToBeSent", "Working", "Stock OK", "Reserved")'
-            # jql = f'project = "IT Requests" AND type = "HW/SW Request" AND Hardware in (Laptop, iPad, "Mobile Phone") AND inv. is not EMPTY AND "For user" is not EMPTY AND labels != hwr_done AND status in ("SSS To Do", "Wait Delivery" ) AND "Issue Location" = {jira_issue_location}'
+            jql = f'project = "IT Requests" AND type = "HW/SW Request" AND Hardware in (Laptop, iPad, "Mobile Phone") AND inv. is not EMPTY AND "For user" is not EMPTY AND labels != hwr_done AND status in ("SSS To Do", "Wait Delivery" ) AND "Issue Location" = {jira_issue_location}'
             items, ereqs = await asyncio.gather(
                 insight_client.get_objects(iql=iql),
                 insight_client.get_objects(iql=f"objectTypeId=78 AND object HAVING outboundReferences({iql})"),
@@ -115,7 +129,7 @@ class GetITItemsListView(View):
     async def post(self, request):
         querry = json.loads(json.loads(request.body.decode("utf-8")).get("querry", ""))
         iql = f'objectTypeId=8 AND Type IN ("LAPTOP", "WIRELESS HANDHELD") AND State IN ("Free", "ApprovedToBeSent", "Working", "Stock OK", "Reserved") AND ("INV No" LIKE "{querry}" OR "Serial No" like "{querry}" OR User LIKE "{querry}")'
-        client = Insight.create(scheme=1, interface=INTERFACE, formatter=Formatter.ATTRS_IN_LIST)
+        client = Insight.create(scheme=1, interface=INSIGHT_INTERFACE, formatter=Formatter.ATTRS_IN_LIST)
         items, ereqs = await asyncio.gather(
             client.get_objects(iql=iql),
             client.get_objects(iql=f"objectTypeId=78 AND object HAVING outboundReferences({iql})"),
@@ -156,7 +170,15 @@ class HandleActionView(View):
     async def post(self, request):
         operation_id = str(uuid4())[-12:]
         item = json.loads(request.POST.get("item", "{}"))
-        user = request.session.get("user", "")
+        """
+        #*#*#*#*#*#**#**#*#
+        #*#*#*#*#*#**#**#*#
+        """
+        user = request.session.get("user", USER)  # BAD BAD BAD
+        """
+        #*#*#*#*#*#**#**#*#
+        #*#*#*#*#*#**#**#*#
+        """
         store = json.loads(request.POST.get("store", ""))
         handler = self.get_handler(request.POST.get("action", ""))
         if user and item and store and handler:
